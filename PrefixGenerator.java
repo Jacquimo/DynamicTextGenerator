@@ -3,7 +3,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 //This branch contains the code for running an Order-2 Markov Chain text generator
@@ -12,13 +15,13 @@ import java.util.Scanner;
 public class PrefixGenerator {
 	public static int prefixSize = 1;
 	
-	public static Dictionary<ArrayList<String>,Prefix> generateTable(String filename) {
-		Dictionary<ArrayList<String>,Prefix> table = new Hashtable();
+	public static Map<List<String>,Prefix> generateTable(String filename) {
+		Map<List<String>,Prefix> table = new HashMap<List<String>, Prefix>();
 		trainPrefixTable(table, filename);
 		return table;
 	}
 	
-	public static void trainPrefixTable(Dictionary<ArrayList<String>, Prefix> table, String filename) {
+	public static void trainPrefixTable(Map<List<String>, Prefix> table, String filename) {
 		// Open scanner on the file
 		Scanner text;
 		try {
@@ -35,7 +38,7 @@ public class PrefixGenerator {
 		}
 		
 		// Empty string prefix denotes the start of a sentence
-		ArrayList<String> prefixStrings = new ArrayList<String>() {{ add(""); add(""); }};
+		ArrayList<String> prefixStrings = Prefix.emptyInput;
 		
 		
 		// Train over each word in the text every word
@@ -79,13 +82,19 @@ public class PrefixGenerator {
 			Prefix prevPrefix = getPrefix(table, prefixStrings);
 			String suffix = text.next();
 			ArrayList<Prefix> prefixes = adjustForPunctuation(table, prefixStrings, suffix);
-			prevPrefix.addSuffix(prefixes.get(0).getPrefix(0));
+			prevPrefix.addSuffix(prefixes.get(0).getPrefix(1));
 			
 			// Update the prefixString values
-			prefixStrings.clear();
-			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(0));
-			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(1));
-			prevPrefix = prefixes.get(prefixes.size()-1); // Get the last prefix object
+			prefixStrings = new ArrayList<String>();
+			if (!TextGenerationEngine.shouldTerminate(suffix)) {
+				prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(0));
+				prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(1));
+				prevPrefix = prefixes.get(prefixes.size()-1); // Get the last prefix object
+			}
+			else {
+				prevPrefix = table.get(Prefix.emptyInput);
+				prefixStrings = Prefix.emptyInput;
+			}
 		}
 		
 		// Handle case where final sentence doesn't end in a period
@@ -97,7 +106,7 @@ public class PrefixGenerator {
 		text.close();
 	}
 	
-	public static Prefix getPrefix(Dictionary<ArrayList<String>, Prefix> table, ArrayList<String> prefixStrings) {		
+	public static Prefix getPrefix(Map<List<String>, Prefix> table, ArrayList<String> prefixStrings) {		
 		Prefix prefix = table.get(prefixStrings);
 		if (prefix == null) {
 			prefix = new Prefix(prefixStrings);
@@ -107,7 +116,7 @@ public class PrefixGenerator {
 	}
 	
 	// This needs to be updated
-	/*private static void updateConnections(Dictionary<String[], Prefix> table, String[] prefixStrings, String suffix) {
+	/*private static void updateConnections(Map<String[], Prefix> table, String[] prefixStrings, String suffix) {
 		Prefix prefix = getPrefix(table, prefixStr);
 		Prefix suffix = getPrefix(table, suffixStr);
 		
@@ -119,7 +128,7 @@ public class PrefixGenerator {
 	}
 	
 	// Updates prefix string array so that the first element is removed and a new string is added as the last element
-	public static ArrayList<String> updatePrefixStrings(ArrayList<String> prefs, String str) {
+	public static ArrayList<String> updatePrefixStrings(List<String> prefs, String str) {
 		ArrayList<String> ret = new ArrayList<String>();
 		for (int i = 0; i < prefs.size() - 1; ++i) {
 			ret.add(prefs.get(i+1));
@@ -134,7 +143,7 @@ public class PrefixGenerator {
 	 * @param str
 	 * @return
 	 */
-	public static ArrayList<Prefix> adjustForPunctuation(Dictionary<ArrayList<String>, Prefix> table, ArrayList<String> prevPrefixes, String str) {
+	public static ArrayList<Prefix> adjustForPunctuation(Map<List<String>, Prefix> table, ArrayList<String> prevPrefixes, String str) {
 		if (str.length() <= 1) {
 			Prefix ret = getPrefix(table, updatePrefixStrings(prevPrefixes, str));
 			return (new ArrayList<Prefix>() {{ add(ret); }});

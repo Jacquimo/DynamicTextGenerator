@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 //This branch contains the code for running an Order-2 Markov Chain text generator
 
@@ -13,6 +14,8 @@ public class Prefix {
 	private String first;
 	private String second;
 	private ArrayList<String> suffixes;
+	
+	public static ArrayList<String> emptyInput = new ArrayList<String>() {{ add(""); add(""); }};
 	
 	/**
 	 * Constructor that takes a single prefix string arguments

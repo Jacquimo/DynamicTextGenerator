@@ -3,6 +3,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 //This branch contains the code for running an Order-2 Markov Chain text generator
@@ -16,7 +18,7 @@ public class TextGenerationEngine {
 	}};
 	private static ArrayList<String> trainedTexts = new ArrayList<String>();
 	
-	public static Dictionary<String[],Prefix> table = null;
+	public static Map<List<String>, Prefix> table = null;
 	
 	public static void main(String[] args) {
 		
@@ -103,14 +105,20 @@ public class TextGenerationEngine {
 		
 		// The starting word is the empty string
 		
-		String[] prefixStrings = new String[] { "", "" };
+		ArrayList<String> prefixStrings = Prefix.emptyInput;
 		Prefix current = table.get(prefixStrings);
+		String next = "";
 		
 		do {
 			
-			String next = current.getRandomSuffix();
+			do {
+				next = current.getRandomSuffix();
+				if (next.equals(""))
+					current = table.get(Prefix.emptyInput);
+			} while (next.equals(""));
+			
 			// If it is not the start of a sentence, append a space (to add the spaces between the words)
-			if (!current.toString().equals("") && !PrefixGenerator.isPunctuation(next.charAt(0)))
+			if (!current.getPrefix(1).equals("") && next.toString().length() > 0 && !PrefixGenerator.isPunctuation(next.charAt(0)))
 				ret.append(" ");
 			
 			ret.append(next.toString());
@@ -118,16 +126,27 @@ public class TextGenerationEngine {
 			prefixStrings = PrefixGenerator.updatePrefixStrings(prefixStrings, next);
 			current = table.get(prefixStrings);
 			
-			if (current.getNumSuffixes() <= 0)
+			if (current == null || current.getNumSuffixes() <= 0)
 				break;
 			
-		} while (!terminators.contains(current.toString()));
+		} while (!shouldTerminate(next));
 		//ret.append(current.toString());
 		
 		return ret.toString();
 	}
 	
-	public static boolean isTerminator(String c) {
-		return terminators.contains(c);
+	public static boolean shouldTerminate(String suffix) {
+		if (suffix.equals(""))
+			return false;
+		
+		for (int i = suffix.length()-1; i >= 0; --i) {
+			char c = suffix.charAt(i);
+			if (!PrefixGenerator.isPunctuation(c))
+				break;
+			if (terminators.contains(c + ""))
+				return false;
+		}
+		
+		return false;
 	}
 }
