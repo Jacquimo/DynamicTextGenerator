@@ -34,12 +34,21 @@ public class PrefixGenerator {
 		// Empty string prefix denotes the start of a sentence
 		Prefix prevPrefix = getPrefix(table, "");
 		
+		// Train over each word in the text every word
 		while(text.hasNext()) {
 			String prefixStr = text.next();
 			char punct = prefixStr.charAt(prefixStr.length() - 1);
+
+			// If the word starts with punctuation, update the prefix connections and set prevPrefix to the starting punctuation
+			if (prefixStr.length() > 1 && isPunctuation(prefixStr.charAt(0))) {
+				char start = prefixStr.charAt(0);
+				prefixStr = prefixStr.substring(1);
+				updateConnections(table, prevPrefix.toString(), start + "");
+				prevPrefix = getPrefix(table, start + "");
+			}
 			
 			// Handle the case where the word ends in punctuation
-			if (isPunctuation(punct)) {
+			if (prefixStr.length() > 1 && isPunctuation(punct)) {
 				prefixStr = prefixStr.substring(0, prefixStr.length() - 1);
 				updateConnections(table, prefixStr, punct + "");
 			}
@@ -50,7 +59,7 @@ public class PrefixGenerator {
 			// update prevPrefix object
 			if (isPunctuation(punct)) {
 				// If the punctuation mark is a '.' or ';' then a new sentence is starting
-				if (punct == '.' || punct == ';') {
+				if (punct == '.' || punct == ';' || punct == '!') {
 					prevPrefix = getPrefix(table, "");
 				}
 				else {
@@ -61,6 +70,11 @@ public class PrefixGenerator {
 				prevPrefix = currentPrefix;
 			}
 		}
+		
+		// Handle case where final sentence doesn't end in a period
+		// If it ended in a period, prevPrevious will be set to the empty string (signifying the start of a new sentence)
+		if (!prevPrefix.toString().equals(""))
+			updateConnections(table, prevPrefix.toString(), ".");
 		
 		
 		text.close();
@@ -82,8 +96,8 @@ public class PrefixGenerator {
 		prefix.addSuffix(suffix);
 	}
 	
-	private static boolean isPunctuation(char c) {
-		return c != '.' && c != ',' && c != '?' && c != '!' && c != ';' && c != '"';
+	public static boolean isPunctuation(char c) {
+		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '\'' || c == '(' || c == ')';
 	}
 }
 
