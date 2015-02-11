@@ -77,7 +77,7 @@ public class TextGenerationEngine {
 					}
 					
 					if (table == null)
-						table = PrefixGenerator.generateTable(filename);
+						table = PrefixGenerator.generateTable(filename); // This function will call the training function as well
 					else
 						PrefixGenerator.trainPrefixTable(table, filename);
 				} while (filename == null);
