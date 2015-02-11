@@ -69,12 +69,12 @@ public class TextGenerationEngine {
 					}
 					
 					// Check that the file is valid
-					/*File check = new File(filename);
+					File check = new File(filename);
 					if (!check.isFile()) {
 						System.out.printf("Invalid file name\n\n");
 						filename = null;
 						continue;
-					}*/
+					}
 					
 					if (table == null)
 						table = PrefixGenerator.generateTable(filename);
