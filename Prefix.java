@@ -24,6 +24,12 @@ public class Prefix {
 		suffixes = new ArrayList<String>();
 	}
 	
+	public Prefix(String[] prefixStrings) {
+		this.first = prefixStrings[0];
+		this.second = prefixStrings[1];
+		suffixes = new ArrayList<String>();
+	}
+	
 	/*public void addSuffix(Prefix p) {
 		this.suffixes.add(p);
 	}*/

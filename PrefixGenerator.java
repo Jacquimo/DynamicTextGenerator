@@ -12,13 +12,13 @@ import java.util.Scanner;
 public class PrefixGenerator {
 	public static int prefixSize = 1;
 	
-	public static Dictionary<String,Prefix> generateTable(String filename) {
-		Dictionary<String,Prefix> table = new Hashtable();
+	public static Dictionary<String[],Prefix> generateTable(String filename) {
+		Dictionary<String[],Prefix> table = new Hashtable();
 		trainPrefixTable(table, filename);
 		return table;
 	}
 	
-	public static void trainPrefixTable(Dictionary<String, Prefix> table, String filename) {
+	public static void trainPrefixTable(Dictionary<String[], Prefix> table, String filename) {
 		// Open scanner on the file
 		Scanner text;
 		try {
@@ -35,11 +35,12 @@ public class PrefixGenerator {
 		}
 		
 		// Empty string prefix denotes the start of a sentence
-		Prefix prevPrefix = getPrefix(table, "");
+		String[] prefixStrings = new String[] { "" , "" };
+		Prefix prevPrefix = getPrefix(table, prefixStrings);
 		
 		// Train over each word in the text every word
 		while(text.hasNext()) {
-			String prefixStr = text.next();
+			/*String prefixStr = text.next();
 			char punct = prefixStr.charAt(prefixStr.length() - 1);
 
 			// If the word starts with punctuation, update the prefix connections and set prevPrefix to the starting punctuation
@@ -72,6 +73,10 @@ public class PrefixGenerator {
 			else {
 				prevPrefix = currentPrefix;
 			}
+			*/
+			
+			String suffix = text.next();
+			char punct = suffix.charAt(suffix.length()-1);
 		}
 		
 		// Handle case where final sentence doesn't end in a period
@@ -83,16 +88,17 @@ public class PrefixGenerator {
 		text.close();
 	}
 	
-	public static Prefix getPrefix(Dictionary<String, Prefix> table, String prefixStr) {
-		Prefix prefix = table.get(prefixStr);
+	public static Prefix getPrefix(Dictionary<String[], Prefix> table, String[] prefixStrings) {		
+		Prefix prefix = table.get(prefixStrings);
 		if (prefix == null) {
-			prefix = new Prefix(prefixStr);
-			table.put(prefixStr, prefix);
+			prefix = new Prefix(prefixStrings);
+			table.put(prefixStrings, prefix);
 		}
 		return prefix;
 	}
 	
-	private static void updateConnections(Dictionary<String, Prefix> table, String prefixStr, String suffixStr) {
+	// This needs to be updated
+	private static void updateConnections(Dictionary<String[], Prefix> table, String[] prefixStrings, String suffix) {
 		Prefix prefix = getPrefix(table, prefixStr);
 		Prefix suffix = getPrefix(table, suffixStr);
 		
@@ -101,6 +107,101 @@ public class PrefixGenerator {
 	
 	public static boolean isPunctuation(char c) {
 		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '(' || c == ')';
+	}
+	
+	// Updates prefix string array so that the first element is removed and a new string is added as the last element
+	public static String[] updatePrefixStrings(String[] prefs, String str) {
+		String[] ret = new String[prefs.length];
+		for (int i = 0; i < prefs.length - 1; ++i) {
+			ret[i] = prefs[i+1];
+		}
+		ret[ret.length-1] = str;
+		
+		return ret;
+	}
+	
+	/**
+	 * Split prefix string into (potentially) multiple prefix objects to handle punctuation
+	 * @param str
+	 * @return
+	 */
+	public Prefix[] adjustForPunctuation(Dictionary<String[], Prefix> table, String[] prevPrefixes, String str) {
+		if (str.length() <= 1) {
+			Prefix ret = getPrefix(table, updatePrefixStrings(prevPrefixes, str));
+			return new Prefix[] { ret };
+		}
+		
+		Prefix prev = null; // Variable used so that we can update the connections of prefix objects and suffixes
+		
+		int start = 0;
+		ArrayList<Prefix> prefixes = new ArrayList<Prefix>();
+		char c = str.charAt(start);
+		
+		// Loop over all of the starting punctuation marks
+		while (isPunctuation(c)) {
+			prevPrefixes = updatePrefixStrings(prevPrefixes, c + "");
+			Prefix prefix = getPrefix(table, prevPrefixes);
+			
+			// Update the previous prefix's suffix list
+			if (prev != null)
+				prev.addSuffix(c + "");
+			prev = prefix;
+			
+			prefixes.add(prefix);
+			c = str.charAt(++start);
+		}
+		str = str.substring(start);
+		
+		// Add the actual word to the array of prefixes
+		int punctStart = indexOfLastPunctuation(str);
+		String strSuffix = str.substring(0, punctStart);
+		if (prev != null)
+			prev.addSuffix(strSuffix);
+		
+		prevPrefixes = updatePrefixStrings(prevPrefixes, strSuffix);
+		Prefix current = getPrefix(table, prevPrefixes);
+		prefixes.add(current);
+		prev = current;
+		// At this point, prev is guaranteed to never be null
+		
+		// Add any ending punctuation, if there is any
+		if (punctStart < str.length()) {
+			str = str.substring(punctStart);
+			while (str.length() > 0) {
+				c = str.charAt(0);
+				strSuffix = c + "";
+				prev.addSuffix(strSuffix);
+				
+				// Get the associated prefix object and update the list and pointer to the previous prefix
+				prevPrefixes = updatePrefixStrings(prevPrefixes, strSuffix);
+				current = getPrefix(table, prevPrefixes);
+				prefixes.add(current);
+				prev = current;
+				
+				// To insure that we don't index out of bounds when there is only 1 character in the string
+				if (str.length() <= 1)
+					break;
+				else
+					str = str.substring(1);
+			}
+		}
+		
+		// At this point, each prefix object found/created from this string should be in order and have had their suffix lists updated
+		
+		Prefix[] ret = prefixes.toArray(new Prefix[prefixes.size()]);
+		return ret;
+	}
+	
+	// Returns the index of the last punctuation mark so that the return value's index works with the substring non-inclusive ending
+	private int indexOfLastPunctuation(String str) {
+		int ret = str.length();
+		while (ret > 0) {
+			if (!isPunctuation(str.charAt(str.length()-1)))
+				break;
+			else
+				--ret;
+		}
+		return ret;
 	}
 }
 
