@@ -97,7 +97,7 @@ public class PrefixGenerator {
 	}
 	
 	public static boolean isPunctuation(char c) {
-		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '\'' || c == '(' || c == ')';
+		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '(' || c == ')';
 	}
 }
 
