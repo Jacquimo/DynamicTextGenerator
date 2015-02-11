@@ -10,21 +10,23 @@ import java.util.Arrays;
  *
  */
 public class Prefix {
-	private String prefix;
-	private ArrayList<Prefix> suffixes;
+	private String first;
+	private String second;
+	private ArrayList<String> suffixes;
 	
 	/**
 	 * Constructor that takes a single prefix string arguments
 	 * @param strs - (variable arg.) array of strings that holds the prefixes
 	 */
-	public Prefix(String str) {
-		this.prefix = str;
-		suffixes = new ArrayList<Prefix>();
+	public Prefix(String f, String s) {
+		this.first = f;
+		this.second = s;
+		suffixes = new ArrayList<String>();
 	}
 	
-	public void addSuffix(Prefix p) {
+	/*public void addSuffix(Prefix p) {
 		this.suffixes.add(p);
-	}
+	}*/
 	
 	/**
 	 * Adds a suffix that is comprised of the specified strings as prefix strings.
@@ -32,10 +34,10 @@ public class Prefix {
 	 * @param strs - the strings that comprise the suffix (either variable args. or an array)
 	 */
 	public void addSuffix(String str) {
-		this.suffixes.add(new Prefix(str));
+		this.suffixes.add(str);
 	}
 	
-	public Prefix getSuffix(int index) {
+	public String getSuffix(int index) {
 		return this.suffixes.get(index);
 	}
 	
@@ -49,7 +51,7 @@ public class Prefix {
 	}
 	*/
 	
-	public Prefix getRandomSuffix() {
+	public String getRandomSuffix() {
 		// (high - low) * Math.random() + low
 		int index = (int) (this.suffixes.size() * Math.random());
 		return this.suffixes.get(index);
@@ -67,30 +69,15 @@ public class Prefix {
 		else
 			return false;
 		
-		/*if (other.prefixes.length != this.prefixes.length)
+		if (!this.first.equals(other.first) || !this.second.equals(other.second))
 			return false;
 		
-		// Order of the prefix strings is important/defining
-		for (int i = 0; i < this.prefixes.length; ++i) {
-			if (!this.prefixes[i].equals(other.prefixes[i]))
-				return false;
-		}
-		*/
-		
-		return this.prefix.equals(other.prefix);
+		return true;
 	}
 	
 	public String toString() {
-		/*StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < prefixes.length; ++i) {
-			sb.append(this.prefixes[i]);
-			sb.append(" ");
-		}
-		
-		return sb.toString();
-		*/
-		
-		return this.prefix;
+		// Since what makes a prefix unique is its prefixes, the prefixes are what should be printed for this class
+		return this.first + " " + this.second;
 	}
 }
 
