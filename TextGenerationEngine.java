@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Scanner;
 
+//This branch contains the code for running an Order-2 Markov Chain text generator
+
 
 public class TextGenerationEngine {
 	private static ArrayList<String> terminators = new ArrayList<String>() {{

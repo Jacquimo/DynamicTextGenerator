@@ -6,6 +6,9 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Scanner;
 
+//This branch contains the code for running an Order-2 Markov Chain text generator
+
+
 public class PrefixGenerator {
 	public static int prefixSize = 1;
 	

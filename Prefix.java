@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//This branch contains the code for running an Order-2 Markov Chain text generator
+
+
 /**
  * Prefix class that represents prefixes used in a Markov Chain text generator. A prefix can only have 1 prefix string
  * @author Gray Houston
