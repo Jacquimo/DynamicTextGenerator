@@ -21,7 +21,7 @@ public class PrefixGenerator {
 		try {
 			text = new Scanner(new File(filename));
 		} catch (IOException io) {
-			System.out.println("Invalid file name");
+			System.out.printf("File '%s' failed to open\n", filename);
 			return;
 		}
 		

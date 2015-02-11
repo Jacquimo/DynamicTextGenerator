@@ -52,47 +52,6 @@ public class Prefix {
 		return this.suffixes.get(index);
 	}
 	
-	
-	/**
-	 * Determines if the given variable num. of strings are prefix strings (regardless of their order)
-	 * @param strs - the variable number of string prefixes to search for
-	 * @return - whether or not the specified strings are prefix strings.
-	 */
-	/*public boolean containsPrefixes(String... strs) {
-		return containsHelper(true, strs);
-	}
-
-	public boolean containsSuffixes(String... strs) {
-		return containsHelper(false, strs);
-	}
-	
-	private boolean containsHelper(boolean searchPrefixes, String... strs) {
-		if (searchPrefixes) {
-			ArrayList<String> searchArray = new ArrayList<String>(Arrays.asList(this.prefixes));
-			for (int i = 0; i < strs.length; ++i) {
-				if (!searchArray.contains(strs[i]))
-					return false;
-			}
-			return true;
-		}
-		else {
-			//ArrayList<Prefix>
-			
-			// Search speed optimization (make sure list isn't too long)
-			if (strs.length > this.suffixes.size())
-				return false;
-			
-			for (int i = 0; i < strs.length; ++i) {
-				if (!this.suffixes.contains(strs[i])) {
-					return false;
-				}
-			}
-		}
-		
-		return true;
-	}
-	*/
-	
 	/**
 	 * Determines equality among Prefix objects. Two Prefix objects are considered equal if they both
 	 * have the exact same string prefixes in the same order.

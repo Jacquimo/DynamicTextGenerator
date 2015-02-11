@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
@@ -11,12 +12,13 @@ public class TextGenerationEngine {
 		add(".");
 		add("!");
 	}};
+	private static ArrayList<String> trainedTexts = new ArrayList<String>();
 	
 	public static Dictionary<String,Prefix> table = null;
 	
 	public static void main(String[] args) {
 		
-		Scanner in = new Scanner(System.in);
+		Scanner in = new Scanner(System.in); // This scanner is closed in the switch case where the program is selected to end
 		
 		while (true) {
 			int decision = -1;
@@ -34,23 +36,53 @@ public class TextGenerationEngine {
 			
 			switch(decision){
 			case 0:
-				System.out.println("Program Ending");
+				System.out.printf("\nProgram Ending\n");
+				in.close();
 				return;
 				
 			case 1:
+				if (trainedTexts.size() < 1) {
+					System.out.printf("Program has not been trained yet\n\n");
+					break;
+				}
 				System.out.printf("\nDynamically Generated Text\n\n");
 				String sentence = generateSentence();
 				System.out.printf("%s\n\n", sentence);
 				break;
 				
 			case 2:
-				String filename;
-				System.out.print("Enter file name: ");
-				filename = in.next();
-				in.nextLine();
-				if (table == null)
-					table = PrefixGenerator.generateTable(filename);
-				PrefixGenerator.trainPrefixTable(table, filename);
+				String filename = null;
+				do {
+					System.out.print("Enter file name ('0' for menu): ");
+					filename = in.next();
+					in.nextLine();
+					
+					// Allow user to return to main menu
+					if (filename.equals("0"))
+						break;
+					
+					// Check if program has already been trained on this text
+					if (trainedTexts.contains(filename)) {
+						System.out.printf("Program has already been trained on this text\n\n");
+						filename = null;
+						continue;
+					}
+					
+					// Check that the file is valid
+					/*File check = new File(filename);
+					if (!check.isFile()) {
+						System.out.printf("Invalid file name\n\n");
+						filename = null;
+						continue;
+					}*/
+					
+					if (table == null)
+						table = PrefixGenerator.generateTable(filename);
+					else
+						PrefixGenerator.trainPrefixTable(table, filename);
+				} while (filename == null);
+				
+				trainedTexts.add(filename);
 				System.out.println();
 				break;
 			}
