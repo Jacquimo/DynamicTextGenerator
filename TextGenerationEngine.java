@@ -16,7 +16,7 @@ public class TextGenerationEngine {
 	}};
 	private static ArrayList<String> trainedTexts = new ArrayList<String>();
 	
-	public static Dictionary<String,Prefix> table = null;
+	public static Dictionary<String[],Prefix> table = null;
 	
 	public static void main(String[] args) {
 		
@@ -102,17 +102,21 @@ public class TextGenerationEngine {
 		StringBuilder ret = new StringBuilder();
 		
 		// The starting word is the empty string
-		Prefix current = table.get("");
+		
+		String[] prefixStrings = new String[] { "", "" };
+		Prefix current = table.get(prefixStrings);
 		
 		do {
 			
-			Prefix next = current.getRandomSuffix();
+			String next = current.getRandomSuffix();
 			// If it is not the start of a sentence, append a space (to add the spaces between the words)
-			if (!current.toString().equals("") && !PrefixGenerator.isPunctuation(next.toString().charAt(0)))
+			if (!current.toString().equals("") && !PrefixGenerator.isPunctuation(next.charAt(0)))
 				ret.append(" ");
 			
 			ret.append(next.toString());
-			current = next;
+			//current = next;
+			prefixStrings = PrefixGenerator.updatePrefixStrings(prefixStrings, next);
+			current = table.get(prefixStrings);
 			
 			if (current.getNumSuffixes() <= 0)
 				break;

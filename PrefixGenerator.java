@@ -12,13 +12,13 @@ import java.util.Scanner;
 public class PrefixGenerator {
 	public static int prefixSize = 1;
 	
-	public static Dictionary<String[],Prefix> generateTable(String filename) {
-		Dictionary<String[],Prefix> table = new Hashtable();
+	public static Dictionary<ArrayList<String>,Prefix> generateTable(String filename) {
+		Dictionary<ArrayList<String>,Prefix> table = new Hashtable();
 		trainPrefixTable(table, filename);
 		return table;
 	}
 	
-	public static void trainPrefixTable(Dictionary<String[], Prefix> table, String filename) {
+	public static void trainPrefixTable(Dictionary<ArrayList<String>, Prefix> table, String filename) {
 		// Open scanner on the file
 		Scanner text;
 		try {
@@ -35,7 +35,8 @@ public class PrefixGenerator {
 		}
 		
 		// Empty string prefix denotes the start of a sentence
-		String[] prefixStrings = new String[] { "" , "" };
+		ArrayList<String> prefixStrings = new ArrayList<String>() {{ add(""); add(""); }};
+		
 		
 		// Train over each word in the text every word
 		while(text.hasNext()) {
@@ -77,13 +78,14 @@ public class PrefixGenerator {
 			// Update the previous prefix with a reference to the first prefix in the suffix string
 			Prefix prevPrefix = getPrefix(table, prefixStrings);
 			String suffix = text.next();
-			Prefix[] prefixes = adjustForPunctuation(table, prefixStrings, suffix);
-			prevPrefix.addSuffix(prefixes[0].getPrefix(0));
+			ArrayList<Prefix> prefixes = adjustForPunctuation(table, prefixStrings, suffix);
+			prevPrefix.addSuffix(prefixes.get(0).getPrefix(0));
 			
 			// Update the prefixString values
-			prefixStrings[0] = prefixes[prefixes.length-1].getPrefix(0);
-			prefixStrings[1] = prefixes[prefixes.length-1].getPrefix(1);
-			prevPrefix = prefixes[prefixes.length-1];
+			prefixStrings.clear();
+			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(0));
+			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(1));
+			prevPrefix = prefixes.get(prefixes.size()-1); // Get the last prefix object
 		}
 		
 		// Handle case where final sentence doesn't end in a period
@@ -95,7 +97,7 @@ public class PrefixGenerator {
 		text.close();
 	}
 	
-	public static Prefix getPrefix(Dictionary<String[], Prefix> table, String[] prefixStrings) {		
+	public static Prefix getPrefix(Dictionary<ArrayList<String>, Prefix> table, ArrayList<String> prefixStrings) {		
 		Prefix prefix = table.get(prefixStrings);
 		if (prefix == null) {
 			prefix = new Prefix(prefixStrings);
@@ -117,12 +119,12 @@ public class PrefixGenerator {
 	}
 	
 	// Updates prefix string array so that the first element is removed and a new string is added as the last element
-	public static String[] updatePrefixStrings(String[] prefs, String str) {
-		String[] ret = new String[prefs.length];
-		for (int i = 0; i < prefs.length - 1; ++i) {
-			ret[i] = prefs[i+1];
+	public static ArrayList<String> updatePrefixStrings(ArrayList<String> prefs, String str) {
+		ArrayList<String> ret = new ArrayList<String>();
+		for (int i = 0; i < prefs.size() - 1; ++i) {
+			ret.add(prefs.get(i+1));
 		}
-		ret[ret.length-1] = str;
+		ret.add(str);
 		
 		return ret;
 	}
@@ -132,10 +134,10 @@ public class PrefixGenerator {
 	 * @param str
 	 * @return
 	 */
-	public static Prefix[] adjustForPunctuation(Dictionary<String[], Prefix> table, String[] prevPrefixes, String str) {
+	public static ArrayList<Prefix> adjustForPunctuation(Dictionary<ArrayList<String>, Prefix> table, ArrayList<String> prevPrefixes, String str) {
 		if (str.length() <= 1) {
 			Prefix ret = getPrefix(table, updatePrefixStrings(prevPrefixes, str));
-			return new Prefix[] { ret };
+			return (new ArrayList<Prefix>() {{ add(ret); }});
 		}
 		
 		Prefix prev = null; // Variable used so that we can update the connections of prefix objects and suffixes
@@ -195,8 +197,8 @@ public class PrefixGenerator {
 		
 		// At this point, each prefix object found/created from this string should be in order and have had their suffix lists updated
 		
-		Prefix[] ret = prefixes.toArray(new Prefix[prefixes.size()]);
-		return ret;
+		//Prefix[] ret = prefixes.toArray(new Prefix[prefixes.size()]);
+		return prefixes;
 	}
 	
 	// Returns the index of the last punctuation mark so that the return value's index works with the substring non-inclusive ending

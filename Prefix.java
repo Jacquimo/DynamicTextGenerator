@@ -30,6 +30,12 @@ public class Prefix {
 		suffixes = new ArrayList<String>();
 	}
 	
+	public Prefix(ArrayList<String> prefs) {
+		this.first = prefs.get(0);
+		this.second = prefs.get(1);
+		suffixes = new ArrayList<String>();
+	}
+	
 	/*public void addSuffix(Prefix p) {
 		this.suffixes.add(p);
 	}*/
