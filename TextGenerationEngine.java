@@ -1,10 +1,11 @@
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Scanner;
 
 
-public class TextGenerator {
+public class TextGenerationEngine {
 	private static ArrayList<String> terminators = new ArrayList<String>() {{
 		add("");
 		add(".");
@@ -92,8 +93,3 @@ public class TextGenerator {
 		return terminators.contains(c);
 	}
 }
-
-
-
-
-
