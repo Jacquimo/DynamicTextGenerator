@@ -36,7 +36,6 @@ public class PrefixGenerator {
 		
 		// Empty string prefix denotes the start of a sentence
 		String[] prefixStrings = new String[] { "" , "" };
-		Prefix prevPrefix = getPrefix(table, prefixStrings);
 		
 		// Train over each word in the text every word
 		while(text.hasNext()) {
@@ -75,14 +74,22 @@ public class PrefixGenerator {
 			}
 			*/
 			
+			// Update the previous prefix with a reference to the first prefix in the suffix string
+			Prefix prevPrefix = getPrefix(table, prefixStrings);
 			String suffix = text.next();
-			char punct = suffix.charAt(suffix.length()-1);
+			Prefix[] prefixes = adjustForPunctuation(table, prefixStrings, suffix);
+			prevPrefix.addSuffix(prefixes[0].getPrefix(0));
+			
+			// Update the prefixString values
+			prefixStrings[0] = prefixes[prefixes.length-1].getPrefix(0);
+			prefixStrings[1] = prefixes[prefixes.length-1].getPrefix(1);
+			prevPrefix = prefixes[prefixes.length-1];
 		}
 		
 		// Handle case where final sentence doesn't end in a period
 		// If it ended in a period, prevPrevious will be set to the empty string (signifying the start of a new sentence)
-		if (!prevPrefix.toString().equals(""))
-			updateConnections(table, prevPrefix.toString(), ".");
+		//if (!prevPrefix.toString().equals(""))
+		//	updateConnections(table, prevPrefix.toString(), ".");
 		
 		
 		text.close();
@@ -98,12 +105,12 @@ public class PrefixGenerator {
 	}
 	
 	// This needs to be updated
-	private static void updateConnections(Dictionary<String[], Prefix> table, String[] prefixStrings, String suffix) {
+	/*private static void updateConnections(Dictionary<String[], Prefix> table, String[] prefixStrings, String suffix) {
 		Prefix prefix = getPrefix(table, prefixStr);
 		Prefix suffix = getPrefix(table, suffixStr);
 		
 		prefix.addSuffix(suffix);
-	}
+	}*/
 	
 	public static boolean isPunctuation(char c) {
 		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '(' || c == ')';
@@ -125,7 +132,7 @@ public class PrefixGenerator {
 	 * @param str
 	 * @return
 	 */
-	public Prefix[] adjustForPunctuation(Dictionary<String[], Prefix> table, String[] prevPrefixes, String str) {
+	public static Prefix[] adjustForPunctuation(Dictionary<String[], Prefix> table, String[] prevPrefixes, String str) {
 		if (str.length() <= 1) {
 			Prefix ret = getPrefix(table, updatePrefixStrings(prevPrefixes, str));
 			return new Prefix[] { ret };
@@ -193,7 +200,7 @@ public class PrefixGenerator {
 	}
 	
 	// Returns the index of the last punctuation mark so that the return value's index works with the substring non-inclusive ending
-	private int indexOfLastPunctuation(String str) {
+	private static int indexOfLastPunctuation(String str) {
 		int ret = str.length();
 		while (ret > 0) {
 			if (!isPunctuation(str.charAt(str.length()-1)))

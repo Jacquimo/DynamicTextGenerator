@@ -51,6 +51,10 @@ public class Prefix {
 		return suffixes.size();
 	}
 	
+	public String getPrefix(int i) {
+		return i == 0 ? first : second;
+	}
+	
 	/*
 	public String prefixStringAt(int index) {
 		return this.prefix[index];
