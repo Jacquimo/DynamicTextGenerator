@@ -12,18 +12,16 @@ import java.util.Scanner;
 
 public class TextGenerationEngine {
 	private static ArrayList<String> terminators = new ArrayList<String>() {{
-		add("");
 		add(".");
 		add("!");
+		add("?");
 	}};
 	private static ArrayList<String> trainedTexts = new ArrayList<String>();
 	
 	public static Map<List<String>, Prefix> table = null;
 	
 	public static void main(String[] args) {
-		
 		Scanner in = new Scanner(System.in); // This scanner is closed in the switch case where the program is selected to end
-		
 		while (true) {
 			int decision = -1;
 			
@@ -32,10 +30,11 @@ public class TextGenerationEngine {
 				promptUser();
 				try {
 					decision = in.nextInt();
-					in.nextLine();
+					
 				} catch (Exception e) {
-					System.out.println("Invalid program action");
+					System.out.printf("Invalid program action\n\n");
 				}
+				in.nextLine();
 			} while(decision < 0);
 			
 			switch(decision){
@@ -108,21 +107,25 @@ public class TextGenerationEngine {
 		ArrayList<String> prefixStrings = Prefix.emptyInput;
 		Prefix current = table.get(prefixStrings);
 		String next = "";
+		boolean punctuation = false;
 		
 		do {
-			
-			do {
-				next = current.getRandomSuffix();
-				if (next.equals(""))
-					current = table.get(Prefix.emptyInput);
-			} while (next.equals(""));
-			
-			// If it is not the start of a sentence, append a space (to add the spaces between the words)
-			if (!current.getPrefix(1).equals("") && next.toString().length() > 0 && !PrefixGenerator.isPunctuation(next.charAt(0)))
+			next = current.getRandomSuffix();
+			if (!punctuation)
 				ret.append(" ");
+			punctuation = false;
 			
-			ret.append(next.toString());
-			//current = next;
+			// If there should be a comma, delete the space 
+			if (next.length() > 0 && PrefixGenerator.isPunctuation(next.charAt(0))) {
+				ret.deleteCharAt(ret.length()-1);
+				punctuation = true;
+			}
+			
+			ret.append(next);
+			if (punctuation) {
+				ret.append("\n");
+			}
+			
 			prefixStrings = PrefixGenerator.updatePrefixStrings(prefixStrings, next);
 			current = table.get(prefixStrings);
 			
@@ -132,7 +135,7 @@ public class TextGenerationEngine {
 		} while (!shouldTerminate(next));
 		//ret.append(current.toString());
 		
-		return ret.toString();
+		return ret.toString().trim();
 	}
 	
 	public static boolean shouldTerminate(String suffix) {
@@ -141,10 +144,8 @@ public class TextGenerationEngine {
 		
 		for (int i = suffix.length()-1; i >= 0; --i) {
 			char c = suffix.charAt(i);
-			if (!PrefixGenerator.isPunctuation(c))
-				break;
 			if (terminators.contains(c + ""))
-				return false;
+				return true;
 		}
 		
 		return false;

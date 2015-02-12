@@ -39,10 +39,6 @@ public class Prefix {
 		suffixes = new ArrayList<String>();
 	}
 	
-	/*public void addSuffix(Prefix p) {
-		this.suffixes.add(p);
-	}*/
-	
 	/**
 	 * Adds a suffix that is comprised of the specified strings as prefix strings.
 	 * The order of the suffix strings is important and significant
@@ -63,12 +59,6 @@ public class Prefix {
 	public String getPrefix(int i) {
 		return i == 0 ? first : second;
 	}
-	
-	/*
-	public String prefixStringAt(int index) {
-		return this.prefix[index];
-	}
-	*/
 	
 	public String getRandomSuffix() {
 		// (high - low) * Math.random() + low

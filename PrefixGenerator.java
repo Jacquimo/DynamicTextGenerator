@@ -42,66 +42,19 @@ public class PrefixGenerator {
 		
 		
 		// Train over each word in the text every word
-		while(text.hasNext()) {
-			/*String prefixStr = text.next();
-			char punct = prefixStr.charAt(prefixStr.length() - 1);
-
-			// If the word starts with punctuation, update the prefix connections and set prevPrefix to the starting punctuation
-			if (prefixStr.length() > 1 && isPunctuation(prefixStr.charAt(0))) {
-				char start = prefixStr.charAt(0);
-				prefixStr = prefixStr.substring(1);
-				updateConnections(table, prevPrefix.toString(), start + "");
-				prevPrefix = getPrefix(table, start + "");
-			}
-			
-			// Handle the case where the word ends in punctuation
-			if (prefixStr.length() > 1 && isPunctuation(punct)) {
-				prefixStr = prefixStr.substring(0, prefixStr.length() - 1);
-				updateConnections(table, prefixStr, punct + "");
-			}
-			
-			Prefix currentPrefix = getPrefix(table, prefixStr);
-			prevPrefix.addSuffix(currentPrefix);
-			
-			// update prevPrefix object
-			if (isPunctuation(punct)) {
-				// If the punctuation mark is a '.' or ';' then a new sentence is starting
-				if (punct == '.' || punct == ';' || punct == '!') {
-					prevPrefix = getPrefix(table, "");
-				}
-				else {
-					prevPrefix = getPrefix(table, punct + "");
-				}
-			}
-			else {
-				prevPrefix = currentPrefix;
-			}
-			*/
-			
+		while(text.hasNext()) {			
 			// Update the previous prefix with a reference to the first prefix in the suffix string
 			Prefix prevPrefix = getPrefix(table, prefixStrings);
-			String suffix = text.next();
+			String suffix = text.next().toLowerCase();
 			ArrayList<Prefix> prefixes = adjustForPunctuation(table, prefixStrings, suffix);
 			prevPrefix.addSuffix(prefixes.get(0).getPrefix(1));
 			
 			// Update the prefixString values
 			prefixStrings = new ArrayList<String>();
-			if (!TextGenerationEngine.shouldTerminate(suffix)) {
-				prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(0));
-				prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(1));
-				prevPrefix = prefixes.get(prefixes.size()-1); // Get the last prefix object
-			}
-			else {
-				prevPrefix = table.get(Prefix.emptyInput);
-				prefixStrings = Prefix.emptyInput;
-			}
+			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(0));
+			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(1));
+			prevPrefix = prefixes.get(prefixes.size()-1); // Get the last prefix object
 		}
-		
-		// Handle case where final sentence doesn't end in a period
-		// If it ended in a period, prevPrevious will be set to the empty string (signifying the start of a new sentence)
-		//if (!prevPrefix.toString().equals(""))
-		//	updateConnections(table, prevPrefix.toString(), ".");
-		
 		
 		text.close();
 	}
@@ -114,14 +67,6 @@ public class PrefixGenerator {
 		}
 		return prefix;
 	}
-	
-	// This needs to be updated
-	/*private static void updateConnections(Map<String[], Prefix> table, String[] prefixStrings, String suffix) {
-		Prefix prefix = getPrefix(table, prefixStr);
-		Prefix suffix = getPrefix(table, suffixStr);
-		
-		prefix.addSuffix(suffix);
-	}*/
 	
 	public static boolean isPunctuation(char c) {
 		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '(' || c == ')';
@@ -214,7 +159,7 @@ public class PrefixGenerator {
 	private static int indexOfLastPunctuation(String str) {
 		int ret = str.length();
 		while (ret > 0) {
-			if (!isPunctuation(str.charAt(str.length()-1)))
+			if (!isPunctuation(str.charAt(ret-1)))
 				break;
 			else
 				--ret;
