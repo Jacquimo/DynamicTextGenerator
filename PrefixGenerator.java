@@ -53,7 +53,11 @@ public class PrefixGenerator {
 			prefixStrings = new ArrayList<String>();
 			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(0));
 			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(1));
-			prevPrefix = prefixes.get(prefixes.size()-1); // Get the last prefix object
+			
+			// Can use clear method of array list here since we have already assigned the prefixStrings var.
+			// to point to a newly allocated array list
+			if (TextGenerationEngine.shouldTerminate(prefixes.get(prefixes.size()-1).getPrefix(1))) 
+				prefixStrings = Prefix.emptyInput;
 		}
 		
 		text.close();
