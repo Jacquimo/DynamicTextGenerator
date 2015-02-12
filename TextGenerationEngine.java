@@ -16,6 +16,11 @@ public class TextGenerationEngine {
 		add("!");
 		add("?");
 	}};
+	private static ArrayList<String> breakOnChars = new ArrayList<String>() {{
+		add(",");
+		add(";");
+		add(":");
+	}};
 	private static ArrayList<String> trainedTexts = new ArrayList<String>();
 	
 	public static Map<List<String>, Prefix> table = null;
@@ -107,22 +112,24 @@ public class TextGenerationEngine {
 		ArrayList<String> prefixStrings = Prefix.emptyInput;
 		Prefix current = table.get(prefixStrings);
 		String next = "";
-		boolean punctuation = false;
 		
 		do {
 			next = current.getRandomSuffix();
-			if (!punctuation)
-				ret.append(" ");
-			punctuation = false;
+			ret.append(" ");
+			if (breakOnChars.contains(current.getPrefix(1)))
+				ret.deleteCharAt(ret.length()-1);
 			
 			// If there should be a comma, delete the space 
-			if (next.length() > 0 && PrefixGenerator.isPunctuation(next.charAt(0))) {
+			if (next.length() > 0 && PrefixGenerator.isPunctuation(next.charAt(0)))
 				ret.deleteCharAt(ret.length()-1);
-				punctuation = true;
-			}
 			
-			ret.append(next);
-			if (punctuation) {
+			// Invoke special rules for formatting the return string
+			if (next.equalsIgnoreCase("i"))
+				ret.append("I");
+			else
+				ret.append(next);
+			
+			if (breakOnChars.contains(next)) {
 				ret.append("\n");
 			}
 			
@@ -133,7 +140,11 @@ public class TextGenerationEngine {
 				break;
 			
 		} while (!shouldTerminate(next));
-		//ret.append(current.toString());
+		
+		// Make the sentence start with an upper case letter
+		char upperFirstChar = ret.substring(1, 2).toUpperCase().charAt(0);
+		ret.deleteCharAt(0);
+		ret.setCharAt(0, upperFirstChar);
 		
 		return ret.toString().trim();
 	}
