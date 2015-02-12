@@ -101,6 +101,7 @@ public class TextGenerationEngine {
 		System.out.println("0 - Terminate Program");
 		System.out.println("1 - Generate Sentence");
 		System.out.println("2 - Train Program on File");
+		System.out.println("3 - Change Number of Words in Prefix");
 		System.out.print("Action: ");
 	}
 	

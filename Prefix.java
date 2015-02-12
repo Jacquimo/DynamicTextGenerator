@@ -11,9 +11,13 @@ import java.util.List;
  *
  */
 public class Prefix {
-	private String first;
+	/*private String first;
 	private String second;
-	private ArrayList<String> suffixes;
+	*/
+	public static int NUM_CONTEXT_WORDS = 2;
+	
+	protected String[] prefixStrs;
+	protected ArrayList<String> suffixes;
 	
 	public static ArrayList<String> emptyInput = new ArrayList<String>() {{ add(""); add(""); }};
 	
@@ -21,21 +25,21 @@ public class Prefix {
 	 * Constructor that takes a single prefix string arguments
 	 * @param strs - (variable arg.) array of strings that holds the prefixes
 	 */
-	public Prefix(String f, String s) {
+	/*public Prefix(String f, String s) {
 		this.first = f;
 		this.second = s;
 		suffixes = new ArrayList<String>();
-	}
+	}*/
 	
 	public Prefix(String[] prefixStrings) {
-		this.first = prefixStrings[0];
-		this.second = prefixStrings[1];
+		this.prefixStrs = prefixStrings;
 		suffixes = new ArrayList<String>();
 	}
 	
 	public Prefix(ArrayList<String> prefs) {
-		this.first = prefs.get(0);
-		this.second = prefs.get(1);
+		prefixStrs = new String[prefs.size()];
+		for (int i = 0; i < prefixStrs.length; ++i)
+			prefixStrs[i] = prefs.get(i);
 		suffixes = new ArrayList<String>();
 	}
 	
@@ -48,17 +52,9 @@ public class Prefix {
 		this.suffixes.add(str);
 	}
 	
-	public String getSuffix(int index) {
+	/*public String getSuffix(int index) {
 		return this.suffixes.get(index);
-	}
-	
-	public int getNumSuffixes() {
-		return suffixes.size();
-	}
-	
-	public String getPrefix(int i) {
-		return i == 0 ? first : second;
-	}
+	}*/
 	
 	public String getRandomSuffix() {
 		// (high - low) * Math.random() + low
@@ -78,15 +74,26 @@ public class Prefix {
 		else
 			return false;
 		
-		if (!this.first.equals(other.first) || !this.second.equals(other.second))
-			return false;
+		//if (!this.first.equals(other.first) || !this.second.equals(other.second))
+		//	return false;
+		
+		for (int i = 0; i < prefixStrs.length; ++i) {
+			if (this.prefixStrs[i] != other.prefixStrs[i])
+				return false;
+		}
 		
 		return true;
 	}
 	
 	public String toString() {
 		// Since what makes a prefix unique is its prefixes, the prefixes are what should be printed for this class
-		return this.first + " " + this.second;
+		StringBuilder ret = new StringBuilder();
+		
+		for (int i = 0; i < prefixStrs.length; ++i) {
+			ret.append(prefixStrs[i]);
+			ret.append(" ");
+		}
+		return ret.toString();
 	}
 }
 

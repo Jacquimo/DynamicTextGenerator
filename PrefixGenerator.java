@@ -47,16 +47,20 @@ public class PrefixGenerator {
 			Prefix prevPrefix = getPrefix(table, prefixStrings);
 			String suffix = text.next().toLowerCase();
 			ArrayList<Prefix> prefixes = adjustForPunctuation(table, prefixStrings, suffix);
-			prevPrefix.addSuffix(prefixes.get(0).getPrefix(1));
+			// add as a suffix the last prefix string in the first prefix object
+			prevPrefix.addSuffix(prefixes.get(0).prefixStrs[prefixes.get(0).prefixStrs.length - 1]); 
 			
 			// Update the prefixString values
-			prefixStrings = new ArrayList<String>();
-			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(0));
-			prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(1));
+			//prefixStrings = new ArrayList<String>();
+			String[] temp = prefixes.get(prefixes.size()-1).toString().trim().split(" ");
+			prefixStrings = new ArrayList<String>(Arrays.asList(temp));
+			
+			//prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(0));
+			//prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(1));
 			
 			// Can use clear method of array list here since we have already assigned the prefixStrings var.
 			// to point to a newly allocated array list
-			if (TextGenerationEngine.shouldTerminate(prefixes.get(prefixes.size()-1).getPrefix(1))) 
+			if (TextGenerationEngine.shouldTerminate(prefixes.get(prefixes.size()-1).prefixStrs[Prefix.NUM_CONTEXT_WORDS - 1])) 
 				prefixStrings = Prefix.emptyInput;
 		}
 		
