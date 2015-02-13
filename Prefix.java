@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//This branch contains the code for running an Order-2 Markov Chain text generator
-
 
 /**
- * Prefix class that represents prefixes used in a Markov Chain text generator. A prefix can only have 1 prefix string
+ * Prefix class that represents prefixes used in a Markov Chain text generator. A prefix can have a fixed but arbitrary number of context words.
  * @author Gray Houston
+ * 
+ * @version 2/12/15
  *
  */
 public class Prefix {
@@ -16,37 +16,26 @@ public class Prefix {
 	*/
 	public static int NUM_CONTEXT_WORDS = 2;
 	
-	protected String[] prefixStrs;
-	protected ArrayList<String> suffixes;
+	private String[] prefixStrs;
+	private String[] suffixes;
+	private int numSuffixes; 
 	
-	public static ArrayList<String> emptyInput = null;
+	public static String[] emptyInput = null;
 	
 	public static void initializeEmptyInput() {
-		emptyInput = new ArrayList<String>();
+		emptyInput = new String[NUM_CONTEXT_WORDS];
 		for (int i = 0; i < Prefix.NUM_CONTEXT_WORDS; ++i)
-			emptyInput.add("");
+			emptyInput[i] = "";
 	}
 	
 	/**
-	 * Constructor that takes a single prefix string arguments
-	 * @param strs - (variable arg.) array of strings that holds the prefixes
+	 * Constructor that takes an array of prefix strings as an argument
+	 * @param prefixStrings - the array of prefix strings
 	 */
-	/*public Prefix(String f, String s) {
-		this.first = f;
-		this.second = s;
-		suffixes = new ArrayList<String>();
-	}*/
-	
 	public Prefix(String[] prefixStrings) {
-		this.prefixStrs = prefixStrings;
-		suffixes = new ArrayList<String>();
-	}
-	
-	public Prefix(ArrayList<String> prefs) {
-		prefixStrs = new String[prefs.size()];
-		for (int i = 0; i < prefixStrs.length; ++i)
-			prefixStrs[i] = prefs.get(i);
-		suffixes = new ArrayList<String>();
+		prefixStrs = prefixStrings;
+		suffixes = new String[8];
+		numSuffixes = 0;
 	}
 	
 	/**
@@ -55,17 +44,23 @@ public class Prefix {
 	 * @param strs - the strings that comprise the suffix (either variable args. or an array)
 	 */
 	public void addSuffix(String str) {
-		this.suffixes.add(str);
+		suffixes[numSuffixes++] = str;
+		if (numSuffixes >= suffixes.length) {
+			String[] temp = new String[suffixes.length * 2];
+			for (int i = 0; i < suffixes.length; ++i)
+				temp[i] = suffixes[i];
+			suffixes = temp;
+		}
 	}
 	
-	/*public String getSuffix(int index) {
-		return this.suffixes.get(index);
-	}*/
-	
+	/**
+	 * Selects a random suffix from the list of suffixes. This function is used in the text generation stage
+	 * @return - a random suffix string
+	 */
 	public String getRandomSuffix() {
 		// (high - low) * Math.random() + low
-		int index = (int) (this.suffixes.size() * Math.random());
-		return this.suffixes.get(index);
+		int index = (int) (this.suffixes.length * Math.random());
+		return this.suffixes[index];
 	}
 	
 	/**
@@ -80,9 +75,6 @@ public class Prefix {
 		else
 			return false;
 		
-		//if (!this.first.equals(other.first) || !this.second.equals(other.second))
-		//	return false;
-		
 		for (int i = 0; i < prefixStrs.length; ++i) {
 			if (this.prefixStrs[i] != other.prefixStrs[i])
 				return false;
@@ -91,6 +83,9 @@ public class Prefix {
 		return true;
 	}
 	
+	/**
+	 * The string form of a prefix object is its list of prefixes converted to a whitespace delimited string
+	 */
 	public String toString() {
 		// Since what makes a prefix unique is its prefixes, the prefixes are what should be printed for this class
 		StringBuilder ret = new StringBuilder();
