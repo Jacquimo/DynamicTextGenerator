@@ -183,6 +183,8 @@ public class TextGenerationEngine {
 			char c = suffix.charAt(i);
 			if (terminators.contains(c + ""))
 				return true;
+			if (!PrefixGenerator.isPunctuation(c))
+				return false;
 		}
 		
 		return false;

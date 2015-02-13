@@ -20,12 +20,16 @@ public class Prefix {
 	private String[] suffixes;
 	private int numSuffixes; 
 	
-	public static String[] emptyInput = null;
+	private static String[] emptyInput = null;
 	
 	public static void initializeEmptyInput() {
 		emptyInput = new String[NUM_CONTEXT_WORDS];
 		for (int i = 0; i < Prefix.NUM_CONTEXT_WORDS; ++i)
 			emptyInput[i] = "";
+	}
+	
+	public static String[] getEmptyInput() {
+		return Arrays.copyOf(emptyInput, emptyInput.length);
 	}
 	
 	/**
