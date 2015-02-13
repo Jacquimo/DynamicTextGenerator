@@ -3,6 +3,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -95,7 +96,6 @@ public class TextGenerationEngine {
 				break;
 				
 			case 3:
-				table = null;
 				int length = -1;
 				do {
 					System.out.print("Number of Words in Prefix: ");
@@ -106,6 +106,13 @@ public class TextGenerationEngine {
 				} while (length <= 0);
 				
 				Prefix.NUM_CONTEXT_WORDS = length;
+				System.out.println("All texts re-trained\n");
+				
+				Prefix.initializeEmptyInput();
+				table = new HashMap<List<String>, Prefix>();
+				for (int i = 0; i < trainedTexts.size(); ++i)
+					PrefixGenerator.trainPrefixTable(table, trainedTexts.get(i));
+				
 				break;
 				
 			default:

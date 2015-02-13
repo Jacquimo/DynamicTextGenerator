@@ -23,7 +23,7 @@ public class Prefix {
 	
 	public static void initializeEmptyInput() {
 		emptyInput = new ArrayList<String>();
-		for (int i = 0; i < NUM_CONTEXT_WORDS; ++i)
+		for (int i = 0; i < Prefix.NUM_CONTEXT_WORDS; ++i)
 			emptyInput.add("");
 	}
 	

@@ -39,7 +39,7 @@ public class PrefixGenerator {
 		}
 		
 		// Empty string prefix denotes the start of a sentence
-		ArrayList<String> prefixStrings = Prefix.emptyInput;
+		ArrayList<String> prefixStrings = new ArrayList<String>(Prefix.emptyInput);
 		
 		
 		// Train over each word in the text every word
@@ -51,10 +51,14 @@ public class PrefixGenerator {
 			// add as a suffix the last prefix string in the first prefix object
 			prevPrefix.addSuffix(prefixes.get(0).prefixStrs[prefixes.get(0).prefixStrs.length - 1]); 
 			
+			prefixStrings = new ArrayList<String>(prefixStrings);
 			// Update the prefixString values
 			//prefixStrings = new ArrayList<String>();
 			String[] temp = prefixes.get(prefixes.size()-1).toString().trim().split(" ");
-			prefixStrings = new ArrayList<String>(Arrays.asList(temp));
+			for (int i = 0; i < temp.length; ++i) {
+				prefixStrings.remove(0);
+				prefixStrings.add(temp[i]);
+			}
 			
 			//prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(0));
 			//prefixStrings.add(prefixes.get(prefixes.size()-1).getPrefix(1));
@@ -62,7 +66,7 @@ public class PrefixGenerator {
 			// Can use clear method of array list here since we have already assigned the prefixStrings var.
 			// to point to a newly allocated array list
 			if (TextGenerationEngine.shouldTerminate(prefixes.get(prefixes.size()-1).prefixStrs[Prefix.NUM_CONTEXT_WORDS - 1])) 
-				prefixStrings = Prefix.emptyInput;
+				prefixStrings = new ArrayList<String>(Prefix.emptyInput);
 		}
 		
 		text.close();
