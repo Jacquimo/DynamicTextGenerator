@@ -127,6 +127,7 @@ public class TextGenerationEngine {
 						System.out.println("Invalid input");
 				} while (num < 0);
 				numSentences = num;
+				System.out.println();
 				break;
 				
 			default:
