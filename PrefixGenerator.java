@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 
 public class PrefixGenerator {		
-	public static void trainPrefixTable(StringArrayMap map, String filename) {
+	public static void trainPrefixMap(StringArrayMap map, String filename) {
 		// Open scanner on the file
 		Scanner text;
 		try {
@@ -54,10 +54,6 @@ public class PrefixGenerator {
 			map.putPrefix(prefixes, ret);
 		}
 		return ret;
-	}
-	
-	public static boolean isPunctuation(char c) {
-		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '(' || c == ')';
 	}
 	
 	public static String[] updatePrefixStrings(String[] prefixes, String nextPrefix) {

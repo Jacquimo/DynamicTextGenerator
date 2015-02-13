@@ -8,23 +8,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-//This branch contains the code for running an Order-2 Markov Chain text generator
 
-
-public class TextGenerationEngine {
-	private static ArrayList<String> terminators = new ArrayList<String>() {{
-		add(".");
-		add("!");
-		add("?");
-	}};
-	private static ArrayList<String> breakOnChars = new ArrayList<String>() {{
-		add(",");
-		add(";");
-		add(":");
-	}};
-	private static ArrayList<String> trainedTexts = new ArrayList<String>();
+public class TextGenerationEngine {	
+	private static String[] terminators = { ".", "!", "?" };
+	private static String[] breakChars =  { ",", ";", ":" };
 	
-	public static Map<List<String>, Prefix> table = null;
+	private static String[] trainedTexts = new String[8];
+	private static int numTextsTrained = 0;
+	
+	public static StringArrayMap map = new StringArrayMap();
+	
+	public static void addTrainedTexts(String filename) {
+		trainedTexts[numTextsTrained++] = filename;
+		if (numTextsTrained >= trainedTexts.length) {
+			String[] temp = new String[2 * trainedTexts.length];
+			for (int i = 0; i < trainedTexts.length; ++i)
+				temp[i] = trainedTexts[i];
+			trainedTexts = temp;
+		}
+	}
 	
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in); // This scanner is closed in the switch case where the program is selected to end
@@ -50,7 +52,7 @@ public class TextGenerationEngine {
 				return;
 				
 			case 1:
-				if (trainedTexts.size() < 1) {
+				if (numTextsTrained < 1) {
 					System.out.printf("Program has not been trained yet\n\n");
 					break;
 				}
@@ -71,7 +73,7 @@ public class TextGenerationEngine {
 						break;
 					
 					// Check if program has already been trained on this text
-					if (trainedTexts.contains(filename)) {
+					if (haveTrainedText(filename)) {
 						System.out.printf("Program has already been trained on this text\n\n");
 						filename = null;
 						continue;
@@ -85,13 +87,11 @@ public class TextGenerationEngine {
 						continue;
 					}
 					
-					if (table == null)
-						table = PrefixGenerator.generateTable(filename); // This function will call the training function as well
-					else
-						PrefixGenerator.trainPrefixTable(table, filename);
+					PrefixGenerator.trainPrefixMap(map, filename);
+				
 				} while (filename == null);
 				
-				trainedTexts.add(filename);
+				addTrainedTexts(filename);
 				System.out.println();
 				break;
 				
@@ -109,9 +109,9 @@ public class TextGenerationEngine {
 				System.out.println("All texts re-trained\n");
 				
 				Prefix.initializeEmptyInput();
-				table = new HashMap<List<String>, Prefix>();
-				for (int i = 0; i < trainedTexts.size(); ++i)
-					PrefixGenerator.trainPrefixTable(table, trainedTexts.get(i));
+				map = new StringArrayMap();
+				for (int i = 0; i < numTextsTrained; ++i)
+					PrefixGenerator.trainPrefixMap(map, trainedTexts[i]);
 				
 				break;
 				
@@ -119,6 +119,14 @@ public class TextGenerationEngine {
 				System.out.printf("Invalid program action\n\n");
 			}
 		}
+	}
+	
+	public static boolean haveTrainedText(String filename) {
+		for (int i = 0; i < numTextsTrained; ++i)
+			if (filename.equals(trainedTexts[i]))
+				return true;
+		
+		return false;
 	}
 	
 	public static void promptUser() {
@@ -134,20 +142,20 @@ public class TextGenerationEngine {
 		
 		// The starting word is the empty string
 		
-		ArrayList<String> prefixStrings = Prefix.emptyInput;
-		Prefix current = table.get(prefixStrings);
+		String[] prefixStrings = Prefix.getEmptyInput();
+		Prefix current = map.getPrefix(prefixStrings);
 		String next = "";
 		
 		do {
 			next = current.getRandomSuffix();
 			ret.append(" ");
 			// check if the last prefix string is punctuation
-			if (breakOnChars.contains(current.prefixStrs[current.prefixStrs.length - 1])) 
-				ret.deleteCharAt(ret.length()-1);
+			//if (breakChars.contains(current.prefixStrs[current.prefixStrs.length - 1])) 
+			//	ret.deleteCharAt(ret.length()-1);
 			
 			// If there should be a comma, delete the space 
-			if (next.length() > 0 && PrefixGenerator.isPunctuation(next.charAt(0)))
-				ret.deleteCharAt(ret.length()-1);
+			//if (next.length() > 0 && PrefixGenerator.isPunctuation(next.charAt(0)))
+			//	ret.deleteCharAt(ret.length()-1);
 			
 			// Invoke special rules for formatting the return string
 			if (next.equalsIgnoreCase("i"))
@@ -155,14 +163,17 @@ public class TextGenerationEngine {
 			else
 				ret.append(next);
 			
-			if (breakOnChars.contains(next)) {
+			//if (breakOnChars.contains(next)) {
+			//	ret.append("\n");
+			//}
+			
+			if (contains(breakChars, next.charAt(next.length()-1) + ""))
 				ret.append("\n");
-			}
 			
 			prefixStrings = PrefixGenerator.updatePrefixStrings(prefixStrings, next);
-			current = table.get(prefixStrings);
+			current = map.getPrefix(prefixStrings);
 			
-			if (current == null || current.suffixes.size() <= 0)
+			if (current == null || current.getNumSuffixes() <= 0)
 				break;
 			
 		} while (!shouldTerminate(next));
@@ -175,17 +186,29 @@ public class TextGenerationEngine {
 		return ret.toString().trim();
 	}
 	
+	public static boolean isPunctuation(char c) {
+		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '(' || c == ')';
+	}
+	
 	public static boolean shouldTerminate(String suffix) {
 		if (suffix.equals(""))
 			return false;
 		
 		for (int i = suffix.length()-1; i >= 0; --i) {
 			char c = suffix.charAt(i);
-			if (terminators.contains(c + ""))
+			if (contains(terminators, c + ""))
 				return true;
-			if (!PrefixGenerator.isPunctuation(c))
+			if (!isPunctuation(c))
 				return false;
 		}
+		
+		return false;
+	}
+	
+	public static boolean contains(String[] array, String element) {
+		for (int i = 0; i < array.length; ++i)
+			if (array[i].equals(element))
+				return true;
 		
 		return false;
 	}

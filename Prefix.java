@@ -42,6 +42,10 @@ public class Prefix {
 		numSuffixes = 0;
 	}
 	
+	public int getNumSuffixes() {
+		return suffixes.length;
+	}
+	
 	/**
 	 * Adds a suffix that is comprised of the specified strings as prefix strings.
 	 * The order of the suffix strings is important and significant
