@@ -149,9 +149,10 @@ public class TextGenerationEngine {
 		do {
 			next = current.getRandomSuffix();
 			ret.append(" ");
-			// check if the last prefix string is punctuation
-			//if (breakChars.contains(current.prefixStrs[current.prefixStrs.length - 1])) 
-			//	ret.deleteCharAt(ret.length()-1);
+
+			String mostRecentWord = current.getPrefixString(current.getNumPrefixes()-1);
+			if (mostRecentWord.length() > 0 && contains(breakChars, mostRecentWord.charAt(mostRecentWord.length()-1) + ""))
+				ret.deleteCharAt(ret.length()-1);
 			
 			// If there should be a comma, delete the space 
 			//if (next.length() > 0 && PrefixGenerator.isPunctuation(next.charAt(0)))
@@ -162,10 +163,6 @@ public class TextGenerationEngine {
 				ret.append("I");
 			else
 				ret.append(next);
-			
-			//if (breakOnChars.contains(next)) {
-			//	ret.append("\n");
-			//}
 			
 			if (contains(breakChars, next.charAt(next.length()-1) + ""))
 				ret.append("\n");

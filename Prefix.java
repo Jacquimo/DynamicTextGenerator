@@ -16,7 +16,7 @@ public class Prefix {
 	*/
 	public static int NUM_CONTEXT_WORDS = 2;
 	
-	private String[] prefixStrs;
+	private String[] prefixes;
 	private String[] suffixes;
 	private int numSuffixes; 
 	
@@ -37,13 +37,21 @@ public class Prefix {
 	 * @param prefixStrings - the array of prefix strings
 	 */
 	public Prefix(String[] prefixStrings) {
-		prefixStrs = prefixStrings;
+		prefixes = prefixStrings;
 		suffixes = new String[8];
 		numSuffixes = 0;
 	}
 	
 	public int getNumSuffixes() {
-		return suffixes.length;
+		return numSuffixes;
+	}
+	
+	public int getNumPrefixes() {
+		return prefixes.length;
+	}
+	
+	public String getPrefixString(int index) {
+		return prefixes[index];
 	}
 	
 	/**
@@ -67,7 +75,7 @@ public class Prefix {
 	 */
 	public String getRandomSuffix() {
 		// (high - low) * Math.random() + low
-		int index = (int) (this.suffixes.length * Math.random());
+		int index = (int) (numSuffixes * Math.random());
 		return this.suffixes[index];
 	}
 	
@@ -83,8 +91,8 @@ public class Prefix {
 		else
 			return false;
 		
-		for (int i = 0; i < prefixStrs.length; ++i) {
-			if (this.prefixStrs[i] != other.prefixStrs[i])
+		for (int i = 0; i < prefixes.length; ++i) {
+			if (this.prefixes[i] != other.prefixes[i])
 				return false;
 		}
 		
@@ -98,8 +106,8 @@ public class Prefix {
 		// Since what makes a prefix unique is its prefixes, the prefixes are what should be printed for this class
 		StringBuilder ret = new StringBuilder();
 		
-		for (int i = 0; i < prefixStrs.length; ++i) {
-			ret.append(prefixStrs[i]);
+		for (int i = 0; i < prefixes.length; ++i) {
+			ret.append(prefixes[i]);
 			ret.append(" ");
 		}
 		return ret.toString();

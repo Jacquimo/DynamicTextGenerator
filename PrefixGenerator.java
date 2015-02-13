@@ -29,6 +29,7 @@ public class PrefixGenerator {
 			return;
 		}
 		
+		Prefix.initializeEmptyInput();
 		// Empty string prefix denotes the start of a sentence
 		String[] prefixStrings = Prefix.getEmptyInput();
 		
