@@ -37,7 +37,7 @@ public class TextGenerationEngine {
 					decision = in.nextInt();
 					
 				} catch (Exception e) {
-					System.out.printf("Invalid program action\n\n");
+					decision = -1;
 				}
 				in.nextLine();
 			} while(decision < 0);
@@ -93,6 +93,23 @@ public class TextGenerationEngine {
 				trainedTexts.add(filename);
 				System.out.println();
 				break;
+				
+			case 3:
+				table = null;
+				int length = -1;
+				do {
+					System.out.print("Number of Words in Prefix: ");
+					length = in.nextInt();
+					if (length <= 0)
+						System.out.println("Invalid input");
+					in.nextLine();
+				} while (length <= 0);
+				
+				Prefix.NUM_CONTEXT_WORDS = length;
+				break;
+				
+			default:
+				System.out.printf("Invalid program action\n\n");
 			}
 		}
 	}
@@ -117,7 +134,8 @@ public class TextGenerationEngine {
 		do {
 			next = current.getRandomSuffix();
 			ret.append(" ");
-			if (breakOnChars.contains(current.getPrefix(1)))
+			// check if the last prefix string is punctuation
+			if (breakOnChars.contains(current.prefixStrs[current.prefixStrs.length - 1])) 
 				ret.deleteCharAt(ret.length()-1);
 			
 			// If there should be a comma, delete the space 
@@ -137,7 +155,7 @@ public class TextGenerationEngine {
 			prefixStrings = PrefixGenerator.updatePrefixStrings(prefixStrings, next);
 			current = table.get(prefixStrings);
 			
-			if (current == null || current.getNumSuffixes() <= 0)
+			if (current == null || current.suffixes.size() <= 0)
 				break;
 			
 		} while (!shouldTerminate(next));

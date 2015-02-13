@@ -19,7 +19,13 @@ public class Prefix {
 	protected String[] prefixStrs;
 	protected ArrayList<String> suffixes;
 	
-	public static ArrayList<String> emptyInput = new ArrayList<String>() {{ add(""); add(""); }};
+	public static ArrayList<String> emptyInput = null;
+	
+	public static void initializeEmptyInput() {
+		emptyInput = new ArrayList<String>();
+		for (int i = 0; i < NUM_CONTEXT_WORDS; ++i)
+			emptyInput.add("");
+	}
 	
 	/**
 	 * Constructor that takes a single prefix string arguments

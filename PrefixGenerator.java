@@ -17,6 +17,7 @@ public class PrefixGenerator {
 	
 	public static Map<List<String>,Prefix> generateTable(String filename) {
 		Map<List<String>,Prefix> table = new HashMap<List<String>, Prefix>();
+		Prefix.initializeEmptyInput();
 		trainPrefixTable(table, filename);
 		return table;
 	}
