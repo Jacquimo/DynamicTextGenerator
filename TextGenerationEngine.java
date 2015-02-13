@@ -17,6 +17,7 @@ public class TextGenerationEngine {
 	private static int numTextsTrained = 0;
 	
 	public static StringArrayMap map = new StringArrayMap();
+	public static int numSentences = 1;
 	
 	public static void addTrainedTexts(String filename) {
 		trainedTexts[numTextsTrained++] = filename;
@@ -56,9 +57,12 @@ public class TextGenerationEngine {
 					System.out.printf("Program has not been trained yet\n\n");
 					break;
 				}
+				
 				System.out.printf("\nDynamically Generated Text\n\n");
-				String sentence = generateSentence();
-				System.out.printf("%s\n\n", sentence);
+				for (int i = 0; i < numSentences; ++i) {
+					String sentence = generateSentence();
+					System.out.printf("%s\n\n", sentence);
+				}
 				break;
 				
 			case 2:
@@ -112,7 +116,17 @@ public class TextGenerationEngine {
 				map = new StringArrayMap();
 				for (int i = 0; i < numTextsTrained; ++i)
 					PrefixGenerator.trainPrefixMap(map, trainedTexts[i]);
+				break;
 				
+			case 4:
+				int num = -1;
+				do {
+					System.out.print("Num. of Sentences: ");
+					num = in.nextInt();
+					if (num < 0)
+						System.out.println("Invalid input");
+				} while (num < 0);
+				numSentences = num;
 				break;
 				
 			default:
@@ -134,6 +148,7 @@ public class TextGenerationEngine {
 		System.out.println("1 - Generate Sentence");
 		System.out.println("2 - Train Program on File");
 		System.out.println("3 - Change Number of Words in Prefix");
+		System.out.println("4 - Number of Sentences to Generate");
 		System.out.print("Action: ");
 	}
 	
