@@ -14,7 +14,7 @@ public class Prefix {
 	/*private String first;
 	private String second;
 	*/
-	public static int NUM_CONTEXT_WORDS = 2;
+	public static int NUM_CONTEXT_WORDS = 3;
 	
 	private String[] prefixes;
 	private String[] suffixes;
