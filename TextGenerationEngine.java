@@ -1,11 +1,4 @@
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 
@@ -110,12 +103,12 @@ public class TextGenerationEngine {
 				} while (length <= 0);
 				
 				Prefix.NUM_CONTEXT_WORDS = length;
-				System.out.println("All texts re-trained\n");
 				
-				Prefix.initializeEmptyInput();
+				Prefix.initializeSentenceStartArray();
 				map = new StringArrayMap();
 				for (int i = 0; i < numTextsTrained; ++i)
 					PrefixGenerator.trainPrefixMap(map, trainedTexts[i]);
+				System.out.println("All texts re-trained\n");
 				break;
 				
 			case 4:
@@ -158,7 +151,7 @@ public class TextGenerationEngine {
 		
 		// The starting word is the empty string
 		
-		String[] prefixStrings = Prefix.getEmptyInput();
+		String[] prefixStrings = Prefix.getStartOfSentencePrefixes();
 		Prefix current = map.getPrefix(prefixStrings);
 		String next = "";
 		
@@ -169,10 +162,6 @@ public class TextGenerationEngine {
 			String mostRecentWord = current.getPrefixString(current.getNumPrefixes()-1);
 			if (mostRecentWord.length() > 0 && contains(breakChars, mostRecentWord.charAt(mostRecentWord.length()-1) + ""))
 				ret.deleteCharAt(ret.length()-1);
-			
-			// If there should be a comma, delete the space 
-			//if (next.length() > 0 && PrefixGenerator.isPunctuation(next.charAt(0)))
-			//	ret.deleteCharAt(ret.length()-1);
 			
 			// Invoke special rules for formatting the return string
 			if (next.equalsIgnoreCase("i"))
