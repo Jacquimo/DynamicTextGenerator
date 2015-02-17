@@ -38,4 +38,8 @@ public class StringArrayMap {
 		List<String> temp = new ArrayList<String>(Arrays.asList(prefixes));
 		map.put(temp, pref);
 	}
+	
+	protected Iterator getKeysIterator() {
+		return map.entrySet().iterator();
+	}
 }
