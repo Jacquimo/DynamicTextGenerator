@@ -17,6 +17,7 @@ public class TextGenerationEngine {
 	private static String[] terminators = { ".", "!", "?" };
 	private static String[] trainedTexts = new String[8];
 	private static int numTextsTrained = 0;
+	private static StringArrayMap map = null;
 	
 	/**
 	 * Adds a file to the list of files that the program has been trained on
