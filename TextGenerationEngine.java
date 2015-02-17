@@ -18,6 +18,7 @@ public class TextGenerationEngine {
 	private static String[] trainedTexts = new String[8];
 	private static int numTextsTrained = 0;
 	private static StringArrayMap map = null;
+	private static int numSentances = 1;
 	
 	/**
 	 * Adds a file to the list of files that the program has been trained on
@@ -60,8 +61,18 @@ public class TextGenerationEngine {
 		while (true) {
 			int decision = -1;
 			
-			// TODO: Prompt user input/action
-
+			// Prompt user input/action
+			do {
+				promptUser();
+				try {
+					decision = in.nextInt();
+					
+				} catch (Exception e) {
+					decision = -1;
+				}
+				in.nextLine();
+			} while(decision < 0);
+			
 			switch(decision){
 			case 0:
 				System.out.printf("\nProgram Ending\n");
@@ -69,26 +80,80 @@ public class TextGenerationEngine {
 				return;
 				
 			case 1:
-				// TODO: Dynamically generate 'n' sentences, where 'n' is specified by the user and a default value of 1
+				if (numTextsTrained < 1) {
+					System.out.printf("Program has not been trained yet\n\n");
+					break;
+				}
+				
+				System.out.printf("\nDynamically Generated Text\n\n");
+				for (int i = 0; i < numSentances; ++i) {
+					String sentence = generateSentence();
+					System.out.printf("%s\n\n", sentence);
+				}
 				break;
 				
 			case 2:
 				String filename = null;
-
-				// TODO: Prompt user for a file and then train the program on that file
+				do {
+					System.out.print("Enter file name ('0' for menu): ");
+					filename = in.next();
+					in.nextLine();
+					
+					// Allow user to return to main menu
+					if (filename.equals("0"))
+						break;
+					
+					// Check if program has already been trained on this text
+					if (haveTrainedText(filename)) {
+						System.out.printf("Program has already been trained on this text\n\n");
+						filename = null;
+						continue;
+					}
+					
+					// Check that the file is valid
+					File check = new File(filename);
+					if (!check.isFile()) {
+						System.out.printf("Invalid file name\n\n");
+						filename = null;
+						continue;
+					}
+					
+					PrefixGenerator.trainPrefixMap(map, filename);
+				
+				} while (filename == null);
 				
 				addTrainedTexts(filename);
 				System.out.println();
 				break;
 				
 			case 3:
-				// TODO: Prompt user for number of words in a prefix (must be >= 1). Then retrain all files with the new prefix length
+				int length = -1;
+				do {
+					System.out.print("Number of Words in Prefix: ");
+					length = in.nextInt();
+					if (length <= 0)
+						System.out.println("Invalid input");
+					in.nextLine();
+				} while (length <= 0);
 				
+				Prefix.NUM_CONTEXT_WORDS = length;
+				
+				Prefix.initializeSentenceStartArray();
+				map = new StringArrayMap();
+				for (int i = 0; i < numTextsTrained; ++i)
+					PrefixGenerator.trainPrefixMap(map, trainedTexts[i]);
+				System.out.println("All texts re-trained\n");
 				break;
 				
 			case 4:
-				// TODO: Prompt user for number of sentences to print every time text is generated. This value should be used in case 1
-
+				int num = -1;
+				do {
+					System.out.print("Num. of Sentences: ");
+					num = in.nextInt();
+					if (num < 0)
+						System.out.println("Invalid input");
+				} while (num < 0);
+				numSentances = num;
 				System.out.println();
 				break;
 				
