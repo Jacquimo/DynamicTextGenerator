@@ -98,16 +98,6 @@ public class TextGenerationEngine {
 	}
 	
 	/**
-	 * Using a StringArrayMap of String[]'s to Prefix objects, dynamically generate a sentence by selecting a random suffix 
-	 * of the current prefix. 
-	 * @return
-	 */
-	public static String generateSentence() {
-		// TODO: Implement text generation algorithm described in lab specification
-		return "";
-	}
-	
-	/**
 	 * Determines if a specified character is punctuation
 	 * @param c - the character to check
 	 * @return
@@ -127,11 +117,21 @@ public class TextGenerationEngine {
 	 * good. - end of sentence <P>
 	 * 1.5 - NOT end of sentence
 	 * @param suffix - the word to check
-	 * @return - true if the word occurs at the end of a sentence and false otherwise
+	 * @return - true if word occurs at the end of a sentence
 	 */
 	public static boolean shouldTerminate(String suffix) {
 		// TODO: determine if the given string is at the end of a sentence
 		
 		return false;
+	}
+	
+	/**
+	 * Using a StringArrayMap of String[]'s to Prefix objects, dynamically generate a sentence by selecting a random suffix 
+	 * of the current prefix. 
+	 * @return
+	 */
+	public static String generateSentence() {
+		// TODO: Implement text generation algorithm described in lab specification
+		return "";
 	}
 }
