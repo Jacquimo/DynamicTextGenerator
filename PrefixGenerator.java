@@ -20,7 +20,7 @@ public class PrefixGenerator {
 	 * It is valid that the map object can contain the results of prior training when this method is called. In fact, supporting this case is required to
 	 * allow your program to be trained on multiple files.
 	 * 
-	 * @param map - the HashMap of String[] to Prefix objects. 
+	 * @param map - the Map of String[] to Prefix objects. 
 	 * @param filename - the name of the file on which to train the map
 	 */
 	public static void trainPrefixMap(StringArrayMap map, String filename) {
