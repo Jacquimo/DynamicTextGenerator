@@ -3,11 +3,16 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * This class provides methods to train the Dyanamic Text Generator program. This class only provides static methods and should never be instantiated.
+ * CS 180 - Dynamic Generation Project
  * 
- * @author Gray Houston <grayhouston@purdue.edu>
+ * This class provides methods to train the Dyanamic Text Generator program. This class only provides static methods 
+ * and should never be instantiated.
  * 
- * @version 2/16/15
+ * @author (Your Name) <(YourEmail@purdue.edu)>
+ * 
+ * @lab (Your Lab Section)
+ * 
+ * @version (Today's Date)
  *
  */
 public class PrefixGenerator {
