@@ -4,14 +4,13 @@ import java.util.Scanner;
 
 public class TextGenerationEngine {	
 	private static String[] terminators = { ".", "!", "?" };
-	private static String[] breakChars =  { ",", ";", ":" };
-	
 	private static String[] trainedTexts = new String[8];
 	private static int numTextsTrained = 0;
 	
-	public static StringArrayMap map = new StringArrayMap();
-	public static int numSentences = 1;
-	
+	/**
+	 * Adds a file to the list of files that the program has been trained on
+	 * @param filename - name of the file to add
+	 */
 	public static void addTrainedTexts(String filename) {
 		trainedTexts[numTextsTrained++] = filename;
 		if (numTextsTrained >= trainedTexts.length) {
@@ -22,113 +21,11 @@ public class TextGenerationEngine {
 		}
 	}
 	
-	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in); // This scanner is closed in the switch case where the program is selected to end
-		while (true) {
-			int decision = -1;
-			
-			// Prompt user input/action
-			do {
-				promptUser();
-				try {
-					decision = in.nextInt();
-					
-				} catch (Exception e) {
-					decision = -1;
-				}
-				in.nextLine();
-			} while(decision < 0);
-			
-			switch(decision){
-			case 0:
-				System.out.printf("\nProgram Ending\n");
-				in.close();
-				return;
-				
-			case 1:
-				if (numTextsTrained < 1) {
-					System.out.printf("Program has not been trained yet\n\n");
-					break;
-				}
-				
-				System.out.printf("\nDynamically Generated Text\n\n");
-				for (int i = 0; i < numSentences; ++i) {
-					String sentence = generateSentence();
-					System.out.printf("%s\n\n", sentence);
-				}
-				break;
-				
-			case 2:
-				String filename = null;
-				do {
-					System.out.print("Enter file name ('0' for menu): ");
-					filename = in.next();
-					in.nextLine();
-					
-					// Allow user to return to main menu
-					if (filename.equals("0"))
-						break;
-					
-					// Check if program has already been trained on this text
-					if (haveTrainedText(filename)) {
-						System.out.printf("Program has already been trained on this text\n\n");
-						filename = null;
-						continue;
-					}
-					
-					// Check that the file is valid
-					File check = new File(filename);
-					if (!check.isFile()) {
-						System.out.printf("Invalid file name\n\n");
-						filename = null;
-						continue;
-					}
-					
-					PrefixGenerator.trainPrefixMap(map, filename);
-				
-				} while (filename == null);
-				
-				addTrainedTexts(filename);
-				System.out.println();
-				break;
-				
-			case 3:
-				int length = -1;
-				do {
-					System.out.print("Number of Words in Prefix: ");
-					length = in.nextInt();
-					if (length <= 0)
-						System.out.println("Invalid input");
-					in.nextLine();
-				} while (length <= 0);
-				
-				Prefix.NUM_CONTEXT_WORDS = length;
-				
-				Prefix.initializeSentenceStartArray();
-				map = new StringArrayMap();
-				for (int i = 0; i < numTextsTrained; ++i)
-					PrefixGenerator.trainPrefixMap(map, trainedTexts[i]);
-				System.out.println("All texts re-trained\n");
-				break;
-				
-			case 4:
-				int num = -1;
-				do {
-					System.out.print("Num. of Sentences: ");
-					num = in.nextInt();
-					if (num < 0)
-						System.out.println("Invalid input");
-				} while (num < 0);
-				numSentences = num;
-				System.out.println();
-				break;
-				
-			default:
-				System.out.printf("Invalid program action\n\n");
-			}
-		}
-	}
-	
+	/**
+	 * Determines if the program has been trained on a file
+	 * @param filename - the name of the file to check
+	 * @return
+	 */
 	public static boolean haveTrainedText(String filename) {
 		for (int i = 0; i < numTextsTrained; ++i)
 			if (filename.equals(trainedTexts[i]))
@@ -146,71 +43,83 @@ public class TextGenerationEngine {
 		System.out.print("Action: ");
 	}
 	
-	public static String generateSentence() {
-		StringBuilder ret = new StringBuilder();
-		
-		// The starting word is the empty string
-		
-		String[] prefixStrings = Prefix.getStartOfSentencePrefixes();
-		Prefix current = map.getPrefix(prefixStrings);
-		String next = "";
-		
-		do {
-			next = current.getRandomSuffix();
-			ret.append(" ");
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in); // This scanner is closed in the switch case where the program is selected to end
+		while (true) {
+			int decision = -1;
+			
+			// TODO: Prompt user input/action
 
-			String mostRecentWord = current.getPrefixString(current.getNumPrefixes()-1);
-			if (mostRecentWord.length() > 0 && contains(breakChars, mostRecentWord.charAt(mostRecentWord.length()-1) + ""))
-				ret.deleteCharAt(ret.length()-1);
-			
-			// Invoke special rules for formatting the return string
-			if (next.equalsIgnoreCase("i"))
-				ret.append("I");
-			else
-				ret.append(next);
-			
-			if (contains(breakChars, next.charAt(next.length()-1) + ""))
-				ret.append("\n");
-			
-			prefixStrings = PrefixGenerator.updatePrefixStrings(prefixStrings, next);
-			current = map.getPrefix(prefixStrings);
-			
-			if (current == null || current.getNumSuffixes() <= 0)
+			switch(decision){
+			case 0:
+				System.out.printf("\nProgram Ending\n");
+				in.close();
+				return;
+				
+			case 1:
+				// TODO: Dynamically generate 'n' sentences, where 'n' is specified by the user and a default value of 1
 				break;
-			
-		} while (!shouldTerminate(next));
-		
-		// Make the sentence start with an upper case letter
-		char upperFirstChar = ret.substring(1, 2).toUpperCase().charAt(0);
-		ret.deleteCharAt(0);
-		ret.setCharAt(0, upperFirstChar);
-		
-		return ret.toString().trim();
+				
+			case 2:
+				String filename = null;
+
+				// TODO: Prompt user for a file and then train the program on that file
+				
+				addTrainedTexts(filename);
+				System.out.println();
+				break;
+				
+			case 3:
+				// TODO: Prompt user for number of words in a prefix (must be >= 1). Then retrain all files with the new prefix length
+				
+				break;
+				
+			case 4:
+				// TODO: Prompt user for number of sentences to print every time text is generated. This value should be used in case 1
+
+				System.out.println();
+				break;
+				
+			default:
+				System.out.printf("Invalid program action\n\n");
+			}
+		}
 	}
 	
+	/**
+	 * Using a StringArrayMap of String[]'s to Prefix objects, dynamically generate a sentence by selecting a random suffix 
+	 * of the current prefix. 
+	 * @return
+	 */
+	public static String generateSentence() {
+		// TODO: Implement text generation algorithm described in lab specification
+		return "";
+	}
+	
+	/**
+	 * Determines if a specified character is punctuation
+	 * @param c - the character to check
+	 * @return
+	 */
 	public static boolean isPunctuation(char c) {
 		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '(' || c == ')';
 	}
 	
+	/**
+	 * Determines if the specified string is at the end of a sentence. A word is defined to be at the end of a sentence
+	 * if a string contained within the "terminators" list occurs at the end of the word before any non-punctuation 
+	 * characters occur. The terminator string doesn't need to be at the very end of the string for it to signal the end
+	 * of the sentence.
+	 * <P>
+	 * Examples <P>
+	 * goodbye." - end of sentence <P>
+	 * good. - end of sentence <P>
+	 * 1.5 - NOT end of sentence
+	 * @param suffix - the word to check
+	 * @return - true if the word occurs at the end of a sentence and false otherwise
+	 */
 	public static boolean shouldTerminate(String suffix) {
-		if (suffix.equals(""))
-			return false;
-		
-		for (int i = suffix.length()-1; i >= 0; --i) {
-			char c = suffix.charAt(i);
-			if (contains(terminators, c + ""))
-				return true;
-			if (!isPunctuation(c))
-				return false;
-		}
-		
-		return false;
-	}
-	
-	public static boolean contains(String[] array, String element) {
-		for (int i = 0; i < array.length; ++i)
-			if (array[i].equals(element))
-				return true;
+		// TODO: determine if the given string is at the end of a sentence
 		
 		return false;
 	}
