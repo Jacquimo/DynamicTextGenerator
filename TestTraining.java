@@ -4,7 +4,7 @@ import java.util.*;
 public class TestTraining {
 	public static boolean trainingSuccess(StringArrayMap actual, String filename) {
 		StringArrayMap expected = new StringArrayMap();
-		ExampleTrainer.trainPrefixMap(expected, filename);
+		PrefixGenerator.trainPrefixMap(expected, filename);
 		
 		Iterator ex = expected.getKeysIterator();
 		Iterator act = actual.getKeysIterator();
