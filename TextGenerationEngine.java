@@ -136,12 +136,8 @@ public class TextGenerationEngine {
 					in.nextLine();
 				} while (length <= 0);
 				
-				Prefix.NUM_CONTEXT_WORDS = length;
+				retrain(length);
 				
-				Prefix.initializeSentenceStartArray();
-				map = new StringArrayMap();
-				for (int i = 0; i < numTextsTrained; ++i)
-					PrefixGenerator.trainPrefixMap(map, trainedTexts[i]);
 				System.out.println("All texts re-trained\n");
 				break;
 				
@@ -199,5 +195,14 @@ public class TextGenerationEngine {
 	public static String generateSentence() {
 		// TODO: Implement text generation algorithm described in lab specification
 		return "";
+	}
+	
+	/**
+	 * Make a new StringArrayMap and train it on all of the files stored in the trainedtexts array, but with
+	 * the specified number of words in a prefix
+	 * @param prefixLength
+	 */
+	public static void retrain(int prefixLength) {
+		// TODO: implement the method
 	}
 }
