@@ -102,12 +102,8 @@ public class TextGenerationEngine {
 					in.nextLine();
 				} while (length <= 0);
 				
-				Prefix.NUM_CONTEXT_WORDS = length;
+				retrain(length);
 				
-				Prefix.initializeSentenceStartArray();
-				map = new StringArrayMap();
-				for (int i = 0; i < numTextsTrained; ++i)
-					PrefixGenerator.trainPrefixMap(map, trainedTexts[i]);
 				System.out.println("All texts re-trained\n");
 				break;
 				
@@ -213,5 +209,14 @@ public class TextGenerationEngine {
 				return true;
 		
 		return false;
+	}
+	
+	public static void retrain(int length) {
+		Prefix.NUM_CONTEXT_WORDS = length;
+		
+		Prefix.initializeSentenceStartArray();
+		map = new StringArrayMap();
+		for (int i = 0; i < numTextsTrained; ++i)
+			PrefixGenerator.trainPrefixMap(map, trainedTexts[i]);
 	}
 }
