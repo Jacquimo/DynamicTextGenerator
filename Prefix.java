@@ -61,12 +61,20 @@ public class Prefix {
 	
 	/**
 	 * Returns the prefix string at a specified index.
-	 * <P>
-	 * This method does not perform bounds checking. Therefore, passing an invalid index will throw an exception.
-	 * @param index - the i'th index string
-	 * @return the string at 'index' in the prefixes String[]
+	 * @param index
+	 * @return
 	 */
 	public String getPrefixString(int index) {
+		// TODO: add code here
+		return null;
+	}
+	
+	/**
+	 * Returns the suffix string at a specified index
+	 * @param index
+	 * @return
+	 */
+	public String getSuffixString(int index) {
 		// TODO: add code here
 		return null;
 	}
