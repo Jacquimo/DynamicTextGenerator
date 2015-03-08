@@ -79,6 +79,10 @@ public class Prefix {
 		return prefixes[index];
 	}
 	
+	public String getSuffixString(int index) {
+		return suffixes[index];
+	}
+	
 	/**
 	 * Adds a suffix string to the array of all possible suffixes that appear after this prefix. This method allows for multiple copies of the same string
 	 * to be added to the array.
