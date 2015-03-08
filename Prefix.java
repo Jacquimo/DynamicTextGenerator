@@ -11,14 +11,6 @@ import java.util.List;
  *
  */
 public class Prefix {
-	public static int NUM_CONTEXT_WORDS = 3;
-	
-	private String[] prefixes;
-	private String[] suffixes;
-	private int numSuffixes; 
-	
-	// The array of prefix strings that denote the start of a sentence is an array of empty strings
-	private static String[] sentenceStartPrefixes = null;
 	
 	/**
 	 * The array of prefix strings that denote the start of a sentence is an array of empty strings. This method must be called and the array must be initialized
@@ -27,9 +19,7 @@ public class Prefix {
 	 * If this method is not called every time a new file is trained, the program may inexplicably fail (especially if the length of the prefix has been changed).
 	 */
 	public static void initializeSentenceStartArray() {
-		sentenceStartPrefixes = new String[NUM_CONTEXT_WORDS];
-		for (int i = 0; i < Prefix.NUM_CONTEXT_WORDS; ++i)
-			sentenceStartPrefixes[i] = "";
+		// TODO: add code here
 	}
 	
 	/**
@@ -39,7 +29,8 @@ public class Prefix {
 	 * @return a copy of the startOfSentencePrefixes array (using the Arrays class copyOf method)
 	 */
 	public static String[] getStartOfSentencePrefixes() {
-		return Arrays.copyOf(sentenceStartPrefixes, sentenceStartPrefixes.length);
+		// TODO: add code here
+		return null;
 	}
 	
 	/**
@@ -47,9 +38,7 @@ public class Prefix {
 	 * @param prefixStrings - the array of prefix strings
 	 */
 	public Prefix(String[] prefixStrings) {
-		prefixes = prefixStrings;
-		suffixes = new String[8];
-		numSuffixes = 0;
+		// TODO: add code here
 	}
 	
 	/**
@@ -57,7 +46,8 @@ public class Prefix {
 	 * @return the value of the numSuffixes private variable
 	 */
 	public int getNumSuffixes() {
-		return numSuffixes;
+		// TODO: add code here
+		return -1;
 	}
 	
 	/**
@@ -65,7 +55,8 @@ public class Prefix {
 	 * @return the length of the prefixes String[]
 	 */
 	public int getNumPrefixes() {
-		return prefixes.length;
+		// TODO: add code here
+		return -1;
 	}
 	
 	/**
@@ -76,7 +67,8 @@ public class Prefix {
 	 * @return the string at 'index' in the prefixes String[]
 	 */
 	public String getPrefixString(int index) {
-		return prefixes[index];
+		// TODO: add code here
+		return null;
 	}
 	
 	/**
@@ -85,13 +77,7 @@ public class Prefix {
 	 * @param str - the string suffix (the word that appears directly after this prefix)
 	 */
 	public void addSuffix(String str) {
-		suffixes[numSuffixes++] = str;
-		if (numSuffixes >= suffixes.length) {
-			String[] temp = new String[suffixes.length * 2];
-			for (int i = 0; i < suffixes.length; ++i)
-				temp[i] = suffixes[i];
-			suffixes = temp;
-		}
+		// TODO: add code here
 	}
 	
 	/**
@@ -103,9 +89,8 @@ public class Prefix {
 	 * @return - a random suffix string (from the suffixes String[])
 	 */
 	public String getRandomSuffix() {
-		// (high - low) * Math.random() + low
-		int index = (int) (numSuffixes * Math.random());
-		return this.suffixes[index];
+		// TODO: add code here
+		return null;
 	}
 	
 	/**
@@ -113,32 +98,16 @@ public class Prefix {
 	 * @param obj - Object to determine equality against
 	 */
 	public boolean equals(Object obj) {
-		Prefix other;
-		if (obj instanceof Prefix)
-			other = (Prefix)obj;
-		else
-			return false;
-		
-		for (int i = 0; i < prefixes.length; ++i) {
-			if (this.prefixes[i] != other.prefixes[i])
-				return false;
-		}
-		
-		return true;
+		// TODO: add code here
+		return false;
 	}
 	
 	/**
 	 * The string form of a prefix object is its list of prefixes converted to a whitespace delimited string
 	 */
 	public String toString() {
-		// Since what makes a prefix unique is its prefixes, the prefixes are what should be printed for this class
-		StringBuilder ret = new StringBuilder();
-		
-		for (int i = 0; i < prefixes.length; ++i) {
-			ret.append(prefixes[i]);
-			ret.append(" ");
-		}
-		return ret.toString();
+		// TODO: add code here
+		return null;
 	}
 }
 
