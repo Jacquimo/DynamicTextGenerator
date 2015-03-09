@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.*;
 
-public class TestTextGenerationEngine() {
+public class TestTextGenerationEngine {
 
    @Test
    //Test if the sentence terminates correctly
@@ -27,7 +27,7 @@ public class TestTextGenerationEngine() {
                                 "Not sure...let's go the police"};
 
        for(int i = 0; i < terminators.length; i++) {
-           assertFalse(msg, TestGenerationEngine.shouldTerminate(terminators[i]));
+           assertFalse(msg, TextGenerationEngine.shouldTerminate(terminators[i]));
        }
    }
 
@@ -41,7 +41,7 @@ public class TestTextGenerationEngine() {
                                   "You shall not pass"};
 
        for(int i = 0; i < noTerminators.length; i++) {
-           assertFalse(msg, TestGenerationEngine.shouldTerminate(noTerminators[i]));
+           assertFalse(msg, TextGenerationEngine.shouldTerminate(noTerminators[i]));
        }
    }
 
@@ -56,7 +56,7 @@ public class TestTextGenerationEngine() {
                               "Wait, isn't that an ogre?"};
 
        for(int i = 0; i < puncArray.length; i++) {
-           assertTrue(msg, TestGenerationEngine.shouldTerminate(puncArray[i]));
+           assertTrue(msg, TextGenerationEngine.shouldTerminate(puncArray[i]));
        }
    }
 
@@ -65,7 +65,13 @@ public class TestTextGenerationEngine() {
    public void testShouldTerminate04() {
        String msg = "shouldTerminate: were there only punctuation characters?";
 
-       String [] puncNoTerminator = 
+       String [] puncNoTerminator = {"It's a small world after all",
+                                     "Why didn't you ask me",
+                                     "You're killing me slowly"};
+
+       for(int i = 0; i < puncNoTerminator.length; i++) {
+           assertFalse(msg, TextGenerationEngine.shouldTerminate(puncNoTerminator[i]));
+       }
    }
 
    @Test
