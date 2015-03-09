@@ -96,11 +96,13 @@ public class TestTextGenerationEngine {
 
    }
 
-   @Test
+   @Test(timeout = 100)
    //Test the validity of the output of generateSentence()
    public void testGenerateSentence01() {
        String msg = "generateSentence: are your prefixes-suffixes pairing correct?";
-
+       StringArrayMap actual = new StringArrayMap();
+       PrefixGenerator.trainPrefixMap(actual, "hamlet.txt");
+       
    }
 
    @Test

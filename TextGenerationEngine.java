@@ -53,7 +53,7 @@ public class TextGenerationEngine {
 				
 				System.out.printf("\nDynamically Generated Text\n\n");
 				for (int i = 0; i < numSentences; ++i) {
-					String sentence = generateSentence();
+					String sentence = generateSentence(map);
 					System.out.printf("%s\n\n", sentence);
 				}
 				break;
@@ -142,7 +142,7 @@ public class TextGenerationEngine {
 		System.out.print("Action: ");
 	}
 	
-	public static String generateSentence() {
+	public static String generateSentence(StringArrayMap map) {
 		StringBuilder ret = new StringBuilder();
 		
 		// The starting word is the empty string
