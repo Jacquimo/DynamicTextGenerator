@@ -1,5 +1,11 @@
+import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import java.util.Map.Entry;
+
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 public class TestPrefixGenerator {
@@ -71,56 +77,136 @@ public class TestPrefixGenerator {
 	
     //Making sure the number of keys are equal
     @Test(timeout = 100)
-    public void testTrainPrefixMap_10() {
+    public void testTrainPrefixMap_05() {
         String filename = "hamlet.txt";
         StringArrayMap expected = new StringArrayMap();
         StringArrayMap actual = new StringArrayMap();
-        PrefixGenerator.trainPrefixMap(expected, filename);
+        TestPrefixGenerator.trainPrefixMap(expected, filename);
         PrefixGenerator.trainPrefixMap(actual, filename);
         
         Iterator ex = expected.getKeysIterator();
         Iterator act = actual.getKeysIterator();
         
-        String msg = "trainPrefixMap: Check the amount of prefix Strings you have.";
+        String msg = "trainPrefixMap: Check the amount of prefix objects in your StringArrayMap";
         
         while (ex.hasNext()) {
             assertTrue(msg, act.hasNext());
             Object e = ex.next();
             Object a = act.next();
         }
+        assertFalse(msg, act.hasNext());
     }
     
-    //Making sure the number of keys are equal
-    public static void testTrainPrefixMap_11(StringArrayMap actual, String filename) {
-        StringArrayMap expected = new StringArrayMap();
-        PrefixGenerator.trainPrefixMap(expected, filename);
-        
-        Iterator ex = expected.getKeysIterator();
+    // check if they converted all words to lower case
+    @Test(timeout = 100)
+    public void testTrainPrefixMap_06() {
+    	String filename = "hamlet.txt";
+        StringArrayMap actual = new StringArrayMap();
+        PrefixGenerator.trainPrefixMap(actual, filename);
         Iterator act = actual.getKeysIterator();
-        
-        String msg = "trainPrefixMap: Check the amount of prefix Strings you have.";
+        String msg = "trainPrefixMap: Check if you converted all words to lowercase";
         
         while (act.hasNext()) {
-            assertTrue(msg, ex.hasNext());
+        	Map.Entry<List<String>, Prefix> entry = (Entry<List<String>, Prefix>) act.next();
+        	for (String str : entry.getKey()) {
+        		if (str != null)
+        			assertFalse(msg, containsUpperCase(str));
+        	}
         }
     }
-    /*
-     * 
-     * 
-     Prefix e = expected.getPrefix((String[]) ex.next());
-     Prefix a = actual.getPrefix((String[]) act.next());
-     
-     if (!e.equals(a)) // check to see that the prefix strings are the same
-     return false;
-     
-     if (e.getNumSuffixes() != a.getNumSuffixes())
-     return false;
-     
-     }
-     if (act.hasNext()) // if this case were true, then the actual number of keys differs from the expected number of keys
-     return false;
-     
-     return true;
-     }
-     */
+    
+    private static boolean containsUpperCase(String str) {
+    	for (char c : str.toCharArray())
+    		if (c >= 'A' && c <= 'Z')
+    			return true;
+    	
+    	return false;
+    }
+
+    // check to see if their hamlet training matches ours
+    @Test(timeout = 150)
+    public void testTrainPrefixMap_07() {
+        String filename = "hamlet.txt";
+        StringArrayMap expected = new StringArrayMap();
+        StringArrayMap actual = new StringArrayMap();
+        TestPrefixGenerator.trainPrefixMap(expected, filename);
+        PrefixGenerator.trainPrefixMap(actual, filename);
+        
+        Iterator ex = expected.getKeysIterator();
+        
+        String msg = "";
+        
+        while (ex.hasNext()) {
+        	Map.Entry<List<String>, Prefix> entry = (Entry<List<String>, Prefix>) ex.next();
+        	Prefix a = actual.getPrefix(entry.getKey().toArray(new String[entry.getKey().size()]));
+        	assertNotNull("trainPrefixMap: Did you add all prefixes to the StringArrayMap", a);
+        	
+        	Prefix e = entry.getValue();
+        	assertTrue("trainPrefixMap: Check what String[] keys you are using in your StringArrayMap "
+        			+ "or check if your Prefix class' equals method works", e.equals(a));
+        	assertTrue("trainPrefixMap: Do you have the right number of suffixes "
+        			+ "for the \"" + a.toString() + "\" prefix", e.getNumSuffixes() == a.getNumSuffixes());
+        	
+        	for (int i = 0; i < e.getNumSuffixes(); ++i) {
+        		assertTrue("trainPrefixMap: Did you correctly add suffixes to the \"" + a.toString()
+        				+ "\" prefix", e.getSuffixString(i).equals(a.getSuffixString(i)));
+        	}
+        }
+    }
+    
+    
+    
+	private static void trainPrefixMap(StringArrayMap map, String filename) {
+		// Open scanner on the file
+		Scanner text;
+		try {
+			text = new Scanner(new File(filename));
+		} catch (IOException io) {
+			System.out.printf("File '%s' failed to open\n", filename);
+			return;
+		}
+		
+		// Assumes that the file has at least 1 word in it
+		if (!text.hasNext()) {
+			System.out.println("File is empty");
+			text.close();
+			return;
+		}
+		
+		Prefix.initializeSentenceStartArray();
+		// Empty string prefix denotes the start of a sentence
+		String[] prefixStrings = Prefix.getStartOfSentencePrefixes();
+		
+		
+		// Train over each word in the text every word
+		while(text.hasNext()) {			
+			String suffix = text.next().toLowerCase();
+			Prefix current = getPrefix(map, prefixStrings);
+			current.addSuffix(suffix);
+			prefixStrings = updatePrefixStrings(prefixStrings, suffix);
+			
+			if (TextGenerationEngine.shouldTerminate(suffix))
+				prefixStrings = Prefix.getStartOfSentencePrefixes();
+		}
+		
+		text.close();
+	}
+	
+	private static Prefix getPrefix(StringArrayMap map, String[] prefixes) {
+		Prefix ret = map.getPrefix(prefixes);
+		if (ret == null) {
+			ret = new Prefix(prefixes);
+			map.putPrefix(prefixes, ret);
+		}
+		return ret;
+	}
+	
+	private static String[] updatePrefixStrings(String[] prefixes, String nextPrefix) {
+		String[] ret = new String[prefixes.length];
+		// Copy over all the prefix strings except the first
+		for (int i = 0; i < prefixes.length - 1; ++i)
+			ret[i] = prefixes[i+1];
+		ret[ret.length-1] = nextPrefix;
+		return ret;
+	}
 }

@@ -144,7 +144,7 @@ public class Prefix {
 			return false;
 		
 		for (int i = 0; i < prefixes.length; ++i) {
-			if (this.prefixes[i] != other.prefixes[i])
+			if (!this.prefixes[i].equals(other.prefixes[i]))
 				return false;
 		}
 		
