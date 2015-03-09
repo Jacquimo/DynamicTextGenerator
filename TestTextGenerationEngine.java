@@ -12,7 +12,7 @@ public class TestTextGenerationEngine() {
        String [] terminators = {"I am Sam.", "I am terrified!", "What in the world?"};
 
        for(int i = 0; i < terminators.length; i++) {
-           assertTrue(msg, Prefix.shouldTerminate(terminators[i]));
+           assertTrue(msg, TextGenerationEngine.shouldTerminate(terminators[i]));
        }
    }
 
@@ -27,7 +27,7 @@ public class TestTextGenerationEngine() {
                                 "Not sure...let's go the police"};
 
        for(int i = 0; i < terminators.length; i++) {
-           assertFalse(msg, Prefix.shouldTerminate(terminators[i]));
+           assertFalse(msg, TestGenerationEngine.shouldTerminate(terminators[i]));
        }
    }
 
@@ -41,7 +41,7 @@ public class TestTextGenerationEngine() {
                                   "You shall not pass"};
 
        for(int i = 0; i < noTerminators.length; i++) {
-           assertFalse(msg, Prefix.shouldTerminate(noTerminators[i]));
+           assertFalse(msg, TestGenerationEngine.shouldTerminate(noTerminators[i]));
        }
    }
 
@@ -56,7 +56,7 @@ public class TestTextGenerationEngine() {
                               "Wait, isn't that an ogre?"};
 
        for(int i = 0; i < puncArray.length; i++) {
-           assertTrue(msg, Prefix.shouldTerminate(puncArray[i]));
+           assertTrue(msg, TestGenerationEngine.shouldTerminate(puncArray[i]));
        }
    }
 
@@ -65,6 +65,7 @@ public class TestTextGenerationEngine() {
    public void testShouldTerminate04() {
        String msg = "shouldTerminate: were there only punctuation characters?";
 
+       String [] puncNoTerminator = 
    }
 
    @Test
