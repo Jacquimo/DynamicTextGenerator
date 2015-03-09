@@ -14,7 +14,7 @@ public class TestPrefixGenerator {
 		
 		StringArrayMap actual = new StringArrayMap();
 		PrefixGenerator.trainPrefixMap(actual, filename);
-		assertTrue("Fails to add prefix to StringArrayMap", 
+		assertTrue("trainPrefixMap: fails to add prefix to StringArrayMap", 
 				actual.getPrefix(Prefix.getStartOfSentencePrefixes()).equals(test));
 	}
 	
@@ -24,17 +24,49 @@ public class TestPrefixGenerator {
 		Prefix.initializeSentenceStartArray();
 		String filename = "test02.txt";
 		String[] prefixes = Prefix.getStartOfSentencePrefixes();
+		prefixes[prefixes.length-1] = "hello";
 		
 		StringArrayMap actual = new StringArrayMap();
 		PrefixGenerator.trainPrefixMap(actual, filename);
 		Prefix result = actual.getPrefix(prefixes);
-		assertTrue("Fails to update prefix string with most recent suffix", 
+		assertTrue("trainPrefixMap: fails to update prefix string with most recent suffix", 
 				result.getSuffixString(0).equals("world") && result.getNumSuffixes() == 1);
 	}
 	
+	// Test if they check for sentence termination
 	@Test(timeout = 100)
 	public void testTrainPrefixMap_03() {
+		Prefix.initializeSentenceStartArray();
+		String filename = "test03.txt";
+		String[] prefixes = Prefix.getStartOfSentencePrefixes();
+		String msg = "trainPrefixMap: incorrect suffixes for the start of sentence prefix. Did you "
+				+ "correctly update the prefix when a sentence ended?";
 		
+		StringArrayMap actual = new StringArrayMap();
+		PrefixGenerator.trainPrefixMap(actual, filename);
+		Prefix result = actual.getPrefix(prefixes);
+		assertTrue(msg, result.getNumSuffixes() == 2);
+		assertTrue(msg, result.getSuffixString(0).equals("hello"));
+		assertTrue(msg, result.getSuffixString(1).equals("test"));
+	}
+	
+	// Test if they only use a period to test for sentence termination
+	@Test(timeout = 100)
+	public void testTrainPrefixMap_04() {
+		Prefix.initializeSentenceStartArray();
+		String[] prefixes = Prefix.getStartOfSentencePrefixes();
+		String msg = "trainPrefixMap: incorrect suffixes for the start of sentence prefix. Did you "
+				+ "only check if sentences ended in a period?";
+		
+		for (int i = 0; i < 2; ++i) {
+			String filename = i == 0 ? "test04-1.txt" : "test04-2.txt";
+			StringArrayMap actual = new StringArrayMap();
+			PrefixGenerator.trainPrefixMap(actual, filename);
+			Prefix result = actual.getPrefix(prefixes);
+			assertTrue(msg, result.getNumSuffixes() == 3);
+			assertTrue(msg, result.getSuffixString(1).equals(i == 0 ? "test?" : "test!"));
+			assertTrue(msg, result.getSuffixString(2).equals(i == 0 ? "question" : "exclamation"));
+		}
 	}
 	
     //Making sure the number of keys are equal
