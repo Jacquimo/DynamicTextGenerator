@@ -154,6 +154,20 @@ public class TestPrefixGenerator {
         }
     }
     
+    // check if they accidentally change the start of sentence prefix
+    @Test(timeout = 100)
+    public void testTrainPrefixMap_08() {
+    	String filename = "hamlet.txt";
+    	StringArrayMap actual = new StringArrayMap();
+    	PrefixGenerator.trainPrefixMap(actual, filename);
+    
+    	String msg = "trainPrefixMap: Did your training cause your start of sentence prefix to change";
+    	
+    	String[] startOfSentence = Prefix.getStartOfSentencePrefixes();
+    	for (String str : startOfSentence)
+    		assertTrue(msg, str.equals(""));
+    }
+    
     
     
 	private static void trainPrefixMap(StringArrayMap map, String filename) {
