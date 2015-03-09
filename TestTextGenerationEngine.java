@@ -93,7 +93,14 @@ public class TestTextGenerationEngine {
    //Tests the output of generateSentence() for formatting
    public void testGenerateSentence00() {
        String msg = "generateSentence: is your output formatted correctly?";
+       StringArrayMap actual = new StringArrayMap();
+       PrefixGenerator.trainPrefixMap(actual, "generateSentencetest00.txt");
+       
+       String expected = "Will you go,\nI need some cookies!";
+       String act = TextGenerationEngine.generateSentence(actual);
+       assertEquals(msg, expected, act);
 
+       /*
        String [] prefixes = {"i","am","making"};
 
        Prefix p = new Prefix(prefixes);
@@ -101,7 +108,8 @@ public class TestTextGenerationEngine {
 
        String expected = "I am making my way downtown.";
 
-       assertEquals(msg, expected, TextGenerationEngine.generateSentence());
+       //assertEquals(msg, expected, TextGenerationEngine.generateSentence());
+       */
    }
 
    @Test(timeout = 100)
