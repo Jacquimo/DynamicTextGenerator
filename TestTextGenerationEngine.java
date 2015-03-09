@@ -94,6 +94,14 @@ public class TestTextGenerationEngine {
    public void testGenerateSentence00() {
        String msg = "generateSentence: is your output formatted correctly?";
 
+       String [] prefixes = {"i","am","making"};
+
+       Prefix p = new Prefix(prefixes);
+       p.addSuffix("my way downtown.");
+
+       String expected = "I am making my way downtown.";
+
+       assertEquals(msg, expected, TextGenerationEngine.generateSentence());
    }
 
    @Test(timeout = 100)
