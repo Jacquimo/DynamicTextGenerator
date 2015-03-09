@@ -168,5 +168,32 @@ public class TestPrefix {
 
        assertEquals(msg, expected, p.toString());
    }
+
+   @Test
+   //Test if two prefix objects are the same
+   public void testEquals() {
+       String msg = "equals: Prefix objects are not the same.";
+
+       String [] testArray = {"Boom", "Shaka", "Laka"};
+
+       Prefix p = new Prefix(testArray);
+       Prefix q = new Prefix(testArray);
+
+       assertTrue(msg, p.equals(q));
+   }
+
+   @Test
+   //Test if two prefix objects are differebt
+   public void testEquals01() {
+       String msg = "equals: Prefix objects should be different.";
+
+       String [] testArray = {"Boom", "Shaka", "Laka"};
+       String [] arrayTest = {"I", "Love","Rock", "n", "Roll"};
+
+       Prefix p = new Prefix(testArray);
+       Prefix q = new Prefix(arrayTest);
+
+       assertFalse(msg, p.equals(q));
+   }
 }
 
