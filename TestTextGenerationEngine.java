@@ -9,6 +9,11 @@ public class TestTextGenerationEngine() {
    public void testShouldTerminate00() {
        String msg = "shouldTerminate: are sentences terminated correctly?";
 
+       String [] terminators = {"I am Sam.", "I am terrified!", "What in the world?"};
+
+       for(int i = 0; i < terminators.length; i++) {
+           assertTrue(msg, Prefix.shouldTerminate(terminators[i]));
+       }
    }
 
    @Test
@@ -17,6 +22,13 @@ public class TestTextGenerationEngine() {
        String msg = "shouldTerminate: was there a terminating char in the "
                     + "middle of the sentence?";
 
+       String [] terminators = {"St. John is alive? Really now",
+                                ".java files contain your code",
+                                "Not sure...let's go the police"};
+
+       for(int i = 0; i < terminators.length; i++) {
+           assertFalse(msg, Prefix.shouldTerminate(terminators[i]));
+       }
    }
 
    @Test
@@ -24,6 +36,13 @@ public class TestTextGenerationEngine() {
    public void testShouldTerminate02() {
        String msg = "shouldTerminate: was there a terminating char at all?";
 
+       String [] noTerminators = {"Rowdy won in seconds",
+                                  "I like pizza and pie",
+                                  "You shall not pass"};
+
+       for(int i = 0; i < noTerminators.length; i++) {
+           assertFalse(msg, Prefix.shouldTerminate(noTerminators[i]));
+       }
    }
 
    @Test
@@ -32,6 +51,13 @@ public class TestTextGenerationEngine() {
        String msg = "shouldTerminate: were there any punctuation characters "
                     + "before a terminating char?";
 
+       String [] puncArray = {"You know it's not personal.",
+                              "You know she's a girl right?",
+                              "Wait, isn't that an ogre?"};
+
+       for(int i = 0; i < puncArray.length; i++) {
+           assertTrue(msg, Prefix.shouldTerminate(puncArray[i]));
+       }
    }
 
    @Test
