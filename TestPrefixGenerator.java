@@ -3,9 +3,43 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class TestPrefixGenerator {
+	
+	// Test if they add the first word in a sentence to the hashmap
+	@Test(timeout = 100)
+	public void testTrainPrefixMap_01() {
+		Prefix.initializeSentenceStartArray();
+		String filename = "test01.txt";
+		Prefix test = new Prefix(Prefix.getStartOfSentencePrefixes());
+		test.addSuffix("hello");
+		
+		StringArrayMap actual = new StringArrayMap();
+		PrefixGenerator.trainPrefixMap(actual, filename);
+		assertTrue("Fails to add prefix to StringArrayMap", 
+				actual.getPrefix(Prefix.getStartOfSentencePrefixes()).equals(test));
+	}
+	
+	// Test if they update their prefix to include the last word seen
+	@Test(timeout = 100)
+	public void testTrainPrefixMap_02() {
+		Prefix.initializeSentenceStartArray();
+		String filename = "test02.txt";
+		String[] prefixes = Prefix.getStartOfSentencePrefixes();
+		
+		StringArrayMap actual = new StringArrayMap();
+		PrefixGenerator.trainPrefixMap(actual, filename);
+		Prefix result = actual.getPrefix(prefixes);
+		assertTrue("Fails to update prefix string with most recent suffix", 
+				result.getSuffixString(0).equals("world") && result.getNumSuffixes() == 1);
+	}
+	
+	@Test(timeout = 100)
+	public void testTrainPrefixMap_03() {
+		
+	}
+	
     //Making sure the number of keys are equal
     @Test(timeout = 100)
-    public void testTrainPrefixMap_00() {
+    public void testTrainPrefixMap_10() {
         String filename = "hamlet.txt";
         StringArrayMap expected = new StringArrayMap();
         StringArrayMap actual = new StringArrayMap();
@@ -25,7 +59,7 @@ public class TestPrefixGenerator {
     }
     
     //Making sure the number of keys are equal
-    public static void testTrainPrefixMap_01(StringArrayMap actual, String filename) {
+    public static void testTrainPrefixMap_11(StringArrayMap actual, String filename) {
         StringArrayMap expected = new StringArrayMap();
         PrefixGenerator.trainPrefixMap(expected, filename);
         
