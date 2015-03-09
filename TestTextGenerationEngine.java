@@ -102,7 +102,7 @@ public class TestTextGenerationEngine {
        String msg = "generateSentence: are your prefixes-suffixes pairing correct?";
        StringArrayMap actual = new StringArrayMap();
        PrefixGenerator.trainPrefixMap(actual, "hamlet.txt");
-       
+       String sentence = TextGenerationEngine.generateSentence(actual);
    }
 
    @Test
