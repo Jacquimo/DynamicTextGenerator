@@ -1,0 +1,17 @@
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+public class TestPrefix {
+
+   @Test
+   public void testInitializeSentenceStartArray() {
+       String msg = "initializeSentenceStartArray: did you " +
+                    "initialize your array correctly?";
+       String [] emptyTest = {"", "", ""};
+
+       Prefix.initializeSentenceStartArray();
+       assertArrayEquals(msg, Prefix.getStartOfSentenceArray(), emptyTest);
+   }
+
+}
+
