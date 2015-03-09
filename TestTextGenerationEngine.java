@@ -80,6 +80,13 @@ public class TestTextGenerationEngine {
        String msg = "shouldTerminate: are you checking for punctuating "
                     + "characters correctly?";
 
+       String [] nonFinal = {"You know I'm crazy,",
+                             "Where is the house,",
+                             "There are three things: "};
+
+       for(int i = 0; i < nonFinal.length; i++) {
+           assertFalse(msg, TextGenerationEngine.shouldTerminate(nonFinal[i]));
+       }
    }
 
    @Test
