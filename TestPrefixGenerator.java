@@ -16,7 +16,7 @@ public class TestPrefixGenerator {
     @Hint("check trainPrefixMap")
 	public void testTrainPrefixMap_01() {
 		Prefix.initializeSentenceStartArray();
-		String filename = "test01.txt";
+		String filename = "trainPrefixMaptest01.txt";
 		Prefix test = new Prefix(Prefix.getStartOfSentencePrefixes());
 		test.addSuffix("hello");
 		
@@ -32,7 +32,7 @@ public class TestPrefixGenerator {
     @Hint("check trainPrefixMap")
 	public void testTrainPrefixMap_02() {
 		Prefix.initializeSentenceStartArray();
-		String filename = "test02.txt";
+		String filename = "trainPrefixMaptest02.txt";
 		String[] prefixes = Prefix.getStartOfSentencePrefixes();
 		prefixes[prefixes.length-1] = "hello";
 		
@@ -49,7 +49,7 @@ public class TestPrefixGenerator {
     @Hint("check trainPrefixMap")
 	public void testTrainPrefixMap_03() {
 		Prefix.initializeSentenceStartArray();
-		String filename = "test03.txt";
+		String filename = "trainPrefixMaptest03.txt";
 		String[] prefixes = Prefix.getStartOfSentencePrefixes();
 		String msg = "trainPrefixMap: incorrect suffixes for the start of sentence prefix. Did you "
 				+ "correctly update the prefix when a sentence ended?";
@@ -73,7 +73,7 @@ public class TestPrefixGenerator {
 				+ "only check if sentences ended in a period?";
 		
 		for (int i = 0; i < 2; ++i) {
-			String filename = i == 0 ? "test04-1.txt" : "test04-2.txt";
+			String filename = i == 0 ? "trainPrefixMaptest04-1.txt" : "trainPrefixMaptest04-2.txt";
 			StringArrayMap actual = new StringArrayMap();
 			PrefixGenerator.trainPrefixMap(actual, filename);
 			Prefix result = actual.getPrefix(prefixes);
