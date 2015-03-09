@@ -1,8 +1,28 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
+import java.util.*;
 
 public class TestPrefix {
-
+   /* 
+   @Test
+   //Test when the initial array has not been initialized
+   public void testGetStartOfSentencePrefixes() {
+       String msg = "getStartOfSentencePrefixes: initial array for start of sentence should be null.";
+       
+       //String [] nullArray = Prefix.getStartOfSe
+       String[] foo = new String[1];
+       boolean nullThrown = false;
+       try {
+           foo = Prefix.getStartOfSentencePrefixes();
+       }
+       catch (NullPointerException ex) {
+           foo = null;
+       }
+       
+       assertNull(msg, foo); 
+   }
+   */
+   
    @Test
    //Test if the initial array of prefixes are empty strings with a size of 3
    public void testInitializeSentenceStartArray() {
@@ -12,14 +32,6 @@ public class TestPrefix {
 
        Prefix.initializeSentenceStartArray();
        assertArrayEquals(msg, emptyTest, Prefix.getStartOfSentencePrefixes());
-   }
-
-   @Test
-   //Test when the initial array has not been initialized
-   public void testGetStartOfSentencePrefixes() {
-       String msg = "getStartOfSentencePrefixes: should your array be null?";
-                    
-       assertNull(msg, Prefix.getStartOfSentencePrefixes()); 
    }
 
    @Test
@@ -80,7 +92,7 @@ public class TestPrefix {
    //Test if prefix returned at "index" matches ours
    public void testGetPrefixString() {
        String msg = "getPrefixString: string does not exist or string returned "
-                    + "is incorrect.";
+                    + "string is incorrect.";
 
        String [] testArray = {"index0", "index1", "index2", "index3"};
 
@@ -103,6 +115,58 @@ public class TestPrefix {
        p.addSuffix("Piper-Smith");
 
        assertEquals(msg, 3, p.getNumSuffixes());
+   }
+
+   @Test
+   //Test if suffix returned at "index" matches ours
+   public void testGetSuffixString() {
+       String msg = "getSuffixString: string doesnot exist or returned "
+                    + "string is incorrect.";
+  
+       String [] testArray = {"index0", "index1", "index2", "index3"};
+       Prefix p = new Prefix(testArray);
+
+       p.addSuffix("index0");
+       p.addSuffix("index1");
+       p.addSuffix("index2");
+
+       assertEquals(msg, "index1", p.getPrefixString(1));
+   }
+
+   @Test
+   //Test if a randomly selected suffix is within the array
+   public void testGetRandomSuffix() {
+       String msg = "getRandomSuffix: suffix does not exist.";
+
+       String [] testArray = {"index0", "index1", "index2", "index3"};
+       Prefix p = new Prefix(testArray);
+
+       p.addSuffix("index0");
+       p.addSuffix("index1");
+       p.addSuffix("index2");
+
+       String [] suffixes = new String [3];
+
+       String ranSuffix = p.getRandomSuffix();
+
+       for(int i = 0; i < p.getNumSuffixes(); i++) {
+           suffixes[i] = p.getSuffixString(i);
+       }
+
+       assertTrue(msg, Arrays.asList(suffixes).contains(ranSuffix));
+   }
+
+   @Test
+   //Test if prefixes are converted to Strings
+   public void testToString() {
+       String msg = "toString: prefixes weren't converted to Strings correctly.";
+
+       String [] testArray = {"index0", "index1", "index2", "index3"};
+       Prefix p = new Prefix(testArray);
+
+       String expected = "index0 index1 index2 index3 ";
+
+       assertEquals(msg, expected, p.toString());
    }
 }
 
