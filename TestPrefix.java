@@ -1,29 +1,13 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.*;
+import net.sf.webcat.annotations.*;
 
 public class TestPrefix {
-   /* 
-   @Test
-   //Test when the initial array has not been initialized
-   public void testGetStartOfSentencePrefixes() {
-       String msg = "getStartOfSentencePrefixes: initial array for start of sentence should be null.";
-       
-       //String [] nullArray = Prefix.getStartOfSe
-       String[] foo = new String[1];
-       boolean nullThrown = false;
-       try {
-           foo = Prefix.getStartOfSentencePrefixes();
-       }
-       catch (NullPointerException ex) {
-           foo = null;
-       }
-       
-       assertNull(msg, foo); 
-   }
-   */
    
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0083)
+   @Hint("check initializeSentenceStartArray")
    //Test if the initial array of prefixes are empty strings with a size of 3
    public void testInitializeSentenceStartArray() {
        String msg = "initializeSentenceStartArray: did you " +
@@ -34,7 +18,9 @@ public class TestPrefix {
        assertArrayEquals(msg, emptyTest, Prefix.getStartOfSentencePrefixes());
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0083)
+   @Hint("check Prefix")
    //Test if the constructor initializes the prefix array correctly
    public void testPrefixConstructor() {
        String msg = "Prefix: did you initialize your prefix array correctly?";
@@ -49,7 +35,9 @@ public class TestPrefix {
        }
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0083)
+   @Hint("check getNumSuffixes")
    //Test if the number of suffixes changes
    public void testGetNumSuffixes00() {
        String msg = "getNumSuffixes: initial number of suffixes should be 0";
@@ -61,7 +49,9 @@ public class TestPrefix {
        assertEquals(msg, 0, p.getNumSuffixes());
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0083)
+   @Hint("check getNumSuffixes")
    //Test if the number of suffixes changes
    public void testGetNumSuffixes01() {
        String msg = "getNumSuffixes: does the number of suffixes change correctly?";
@@ -74,7 +64,9 @@ public class TestPrefix {
        assertEquals(msg, 1, p.getNumSuffixes());
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0083)
+   @Hint("check getNumSuffixes")
    //Test if the num of prefixes change
    public void testGetNumPrefixes() {
        String msg = "getNumPrefixes: is the number of prefixes correct?";
@@ -88,7 +80,9 @@ public class TestPrefix {
        assertTrue(msg, p.getNumPrefixes() > q.getNumPrefixes());
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0083)
+   @Hint("check getPrefixString")
    //Test if prefix returned at "index" matches ours
    public void testGetPrefixString() {
        String msg = "getPrefixString: string does not exist or string returned "
@@ -101,7 +95,9 @@ public class TestPrefix {
        assertEquals(msg, testArray[2], p.getPrefixString(2));
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0083)
+   @Hint("check addSuffix")
    //Test if number of suffixes chances
    public void testAddSuffix() {
        String msg = "addSuffix: was the suffix added correctly?";
@@ -117,7 +113,9 @@ public class TestPrefix {
        assertEquals(msg, 3, p.getNumSuffixes());
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0083)
+   @Hint("check getSuffixString")
    //Test if suffix returned at "index" matches ours
    public void testGetSuffixString() {
        String msg = "getSuffixString: string doesnot exist or returned "
@@ -133,7 +131,9 @@ public class TestPrefix {
        assertEquals(msg, "index1", p.getPrefixString(1));
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0084)
+   @Hint("check getRandomSuffix");
    //Test if a randomly selected suffix is within the array
    public void testGetRandomSuffix() {
        String msg = "getRandomSuffix: suffix does not exist.";
@@ -156,7 +156,9 @@ public class TestPrefix {
        assertTrue(msg, Arrays.asList(suffixes).contains(ranSuffix));
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0084)
+   @Hint("check toString")
    //Test if prefixes are converted to Strings
    public void testToString() {
        String msg = "toString: prefixes weren't converted to Strings correctly.";
@@ -169,9 +171,11 @@ public class TestPrefix {
        assertEquals(msg, expected, p.toString());
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0084)
+   @Hint("check equals")
    //Test if two prefix objects are the same
-   public void testEquals() {
+   public void testEquals00() {
        String msg = "equals: Prefix objects are not the same.";
 
        String [] testArray = {"Boom", "Shaka", "Laka"};
@@ -182,7 +186,9 @@ public class TestPrefix {
        assertTrue(msg, p.equals(q));
    }
 
-   @Test
+   @Test(timeout = 100)
+   @ScoringWeights(.0084)
+   @Hint("check equals")
    //Test if two prefix objects are differebt
    public void testEquals01() {
        String msg = "equals: Prefix objects should be different.";
