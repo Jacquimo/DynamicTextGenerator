@@ -2,7 +2,7 @@ import java.util.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class TestPrefixGenerator{
+public class TestPrefixGenerator extends TestCase{
     //Making sure the number of keys are equal
     @Test(timeout = 100)
     public void testTrainPrefixMap_00() {
