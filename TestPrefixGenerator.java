@@ -231,7 +231,7 @@ public class TestPrefixGenerator {
 		return ret;
 	}
 	
-	private static String[] updatePrefixStrings(String[] prefixes, String nextPrefix) {
+	protected static String[] updatePrefixStrings(String[] prefixes, String nextPrefix) {
 		String[] ret = new String[prefixes.length];
 		// Copy over all the prefix strings except the first
 		for (int i = 0; i < prefixes.length - 1; ++i)

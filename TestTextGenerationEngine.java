@@ -1,5 +1,9 @@
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class TestTextGenerationEngine {
@@ -100,25 +104,38 @@ public class TestTextGenerationEngine {
        String act = TextGenerationEngine.generateSentence(actual);
        assertEquals(msg, expected, act);
 
-       /*
-       String [] prefixes = {"i","am","making"};
-
-       Prefix p = new Prefix(prefixes);
-       p.addSuffix("my way downtown.");
-
-       String expected = "I am making my way downtown.";
-
-       //assertEquals(msg, expected, TextGenerationEngine.generateSentence());
-       */
    }
 
    @Test(timeout = 100)
    //Test the validity of the output of generateSentence()
+   // may break this up into multiple test cases
    public void testGenerateSentence01() {
-       String msg = "generateSentence: are your prefixes-suffixes pairing correct?";
+       String msg = "generateSentence: are your prefixes-suffix pairings correct?";
        StringArrayMap actual = new StringArrayMap();
        PrefixGenerator.trainPrefixMap(actual, "hamlet.txt");
-       String sentence = TextGenerationEngine.generateSentence(actual);
+       
+       String sentence = TextGenerationEngine.generateSentence(actual).toLowerCase().replace('\n', ' ').trim();
+       Scanner s = new Scanner(sentence);
+       assertTrue("generateSentence: does your program generate any output?", s.hasNext());
+       String[] prefixes = Prefix.getStartOfSentencePrefixes();
+       
+       while (s.hasNext()) {
+    	   String suffix = s.next();
+    	   Prefix pref = actual.getPrefix(prefixes);
+    	   assertNotNull(msg, pref);
+    	   
+    	   int i = 0;
+    	   for (i = 0; i < pref.getNumSuffixes(); ++i)
+    		   if (pref.getSuffixString(i).equals(suffix))
+    			   break;
+    	   assertFalse(msg, i >= pref.getNumSuffixes());
+    	   
+    	   prefixes = TestPrefixGenerator.updatePrefixStrings(prefixes, suffix);
+    	   if (TextGenerationEngine.shouldTerminate(suffix))
+    		   break;
+       }
+       
+       assertFalse("generateSentence: did you properly terminate your sentence?", s.hasNext());
    }
 
    @Test
