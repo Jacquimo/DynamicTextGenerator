@@ -50,6 +50,25 @@ public class TestPrefixGenerator {
 		assertTrue(msg, result.getSuffixString(1).equals("test"));
 	}
 	
+	// Test if they only use a period to test for sentence termination
+	@Test(timeout = 100)
+	public void testTrainPrefixMap_04() {
+		Prefix.initializeSentenceStartArray();
+		String[] prefixes = Prefix.getStartOfSentencePrefixes();
+		String msg = "trainPrefixMap: incorrect suffixes for the start of sentence prefix. Did you "
+				+ "only check if sentences ended in a period?";
+		
+		for (int i = 0; i < 2; ++i) {
+			String filename = i == 0 ? "test04-1.txt" : "test04-2.txt";
+			StringArrayMap actual = new StringArrayMap();
+			PrefixGenerator.trainPrefixMap(actual, filename);
+			Prefix result = actual.getPrefix(prefixes);
+			assertTrue(msg, result.getNumSuffixes() == 3);
+			assertTrue(msg, result.getSuffixString(1).equals(i == 0 ? "test?" : "test!"));
+			assertTrue(msg, result.getSuffixString(2).equals(i == 0 ? "question" : "exclamation"));
+		}
+	}
+	
     //Making sure the number of keys are equal
     @Test(timeout = 100)
     public void testTrainPrefixMap_10() {
