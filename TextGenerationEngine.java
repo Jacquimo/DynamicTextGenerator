@@ -185,7 +185,8 @@ public class TextGenerationEngine {
 	}
 	
 	public static boolean isPunctuation(char c) {
-		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' || c == '(' || c == ')';
+		return c == '.' || c == ',' || c == '?' || c == '!' || c == ';' || c == ':' || c == '"' ||
+				c == '(' || c == ')' || c == '\'';
 	}
 	
 	public static boolean shouldTerminate(String suffix) {
