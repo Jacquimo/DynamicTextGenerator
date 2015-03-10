@@ -153,6 +153,7 @@ public class Proj4Test {
         String [] suffixes = new String [3];
         
         String ranSuffix = p.getRandomSuffix();
+        ranSuffix.trim();
         
         for(int i = 0; i < p.getNumSuffixes(); i++) {
             suffixes[i] = p.getSuffixString(i);
@@ -315,6 +316,7 @@ public class Proj4Test {
         Iterator act = actual.getKeysIterator();
         String msg = "trainPrefixMap: Check if you converted all words to lowercase";
         
+        assertTrue(msg, act.hasNext());
         while (act.hasNext()) {
             Map.Entry<List<String>, Prefix> entry = (Entry<List<String>, Prefix>) act.next();
             for (String str : entry.getKey()) {
