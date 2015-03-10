@@ -87,7 +87,7 @@ public class TextGenerationEngine {
 				
 				System.out.printf("\nDynamically Generated Text\n\n");
 				for (int i = 0; i < numSentances; ++i) {
-					String sentence = generateSentence();
+					String sentence = generateSentence(map);
 					System.out.printf("%s\n\n", sentence);
 				}
 				break;
@@ -192,7 +192,7 @@ public class TextGenerationEngine {
 	 * of the current prefix. 
 	 * @return
 	 */
-	public static String generateSentence() {
+	public static String generateSentence(StringArrayMap map) {
 		// TODO: Implement text generation algorithm described in lab specification
 		return "";
 	}
