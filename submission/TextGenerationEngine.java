@@ -183,9 +183,8 @@ public class TextGenerationEngine {
 	 * @return - true if word occurs at the end of a sentence
 	 */
 	public static boolean shouldTerminate(String suffix) {
-		// TODO: determine if the given string is at the end of a sentence
-		
-		return false;
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -194,8 +193,8 @@ public class TextGenerationEngine {
 	 * @return
 	 */
 	public static String generateSentence(StringArrayMap map) {
-		// TODO: Implement text generation algorithm described in lab specification
-		return "";
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**

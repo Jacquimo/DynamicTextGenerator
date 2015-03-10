@@ -19,7 +19,8 @@ public class Prefix {
 	 * If this method is not called every time a new file is trained, the program may inexplicably fail (especially if the length of the prefix has been changed).
 	 */
 	public static void initializeSentenceStartArray() {
-		// TODO: add code here
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -29,8 +30,8 @@ public class Prefix {
 	 * @return a copy of the startOfSentencePrefixes array (using the Arrays class copyOf method)
 	 */
 	public static String[] getStartOfSentencePrefixes() {
-		// TODO: add code here
-		return null;
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -38,7 +39,8 @@ public class Prefix {
 	 * @param prefixStrings - the array of prefix strings
 	 */
 	public Prefix(String[] prefixStrings) {
-		// TODO: add code here
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -46,8 +48,8 @@ public class Prefix {
 	 * @return the value of the numSuffixes private variable
 	 */
 	public int getNumSuffixes() {
-		// TODO: add code here
-		return -1;
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -55,8 +57,8 @@ public class Prefix {
 	 * @return the length of the prefixes String[]
 	 */
 	public int getNumPrefixes() {
-		// TODO: add code here
-		return -1;
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -65,8 +67,8 @@ public class Prefix {
 	 * @return
 	 */
 	public String getPrefixString(int index) {
-		// TODO: add code here
-		return null;
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -75,8 +77,8 @@ public class Prefix {
 	 * @return
 	 */
 	public String getSuffixString(int index) {
-		// TODO: add code here
-		return null;
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -85,7 +87,8 @@ public class Prefix {
 	 * @param str - the string suffix (the word that appears directly after this prefix)
 	 */
 	public void addSuffix(String str) {
-		// TODO: add code here
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -97,8 +100,8 @@ public class Prefix {
 	 * @return - a random suffix string (from the suffixes String[])
 	 */
 	public String getRandomSuffix() {
-		// TODO: add code here
-		return null;
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -106,16 +109,16 @@ public class Prefix {
 	 * @param obj - Object to determine equality against
 	 */
 	public boolean equals(Object obj) {
-		// TODO: add code here
-		return false;
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
 	 * The string form of a prefix object is its list of prefixes converted to a whitespace delimited string
 	 */
 	public String toString() {
-		// TODO: add code here
-		return null;
+		// TODO: remove exception and add code here
+		throw new UnsupportedOperationException();
 	}
 }
 
