@@ -4,6 +4,11 @@ import java.util.*;
 import net.sf.webcat.annotations.*;
 
 public class Test {
+
+    public static void main(String [] args) {
+        JUnitCore jCore = new JUnitCore();
+        jCore.run(Test.class);
+    }
     
     @Test(timeout = 100)
     @ScoringWeights(.0083)
@@ -539,8 +544,8 @@ public class Test {
     @ScoringWeight(0.0273)
     @Hint("check generateSentence")
     //Test the validity of the output of generateSentence()
-        // may break this up into multiple test cases
-        public void testGenerateSentence01() {
+    // may break this up into multiple test cases
+    public void testGenerateSentence01() {
         String msg = "generateSentence: are your prefixes-suffix pairings correct?";
         StringArrayMap actual = new StringArrayMap();
         PrefixGenerator.trainPrefixMap(actual, "hamlet.txt");
