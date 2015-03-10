@@ -143,7 +143,7 @@ public class Test {
     
     @Test(timeout = 100)
     @ScoringWeights(.0084)
-    @Hint("check getRandomSuffix");
+    @Hint("check getRandomSuffix")
     //Test if a randomly selected suffix is within the array
     public void testGetRandomSuffix() {
         String msg = "getRandomSuffix: suffix does not exist.";
