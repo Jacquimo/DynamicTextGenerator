@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class TestTextGenerationEngine {
 
@@ -134,8 +135,17 @@ public class TestTextGenerationEngine {
    @Test
    //Test if start of sentence prefix changes
    public void testRetraining00() {
-       String msg = "retrain: did the start of your sentence change?";
-
+       String msg = "retrain: did the start of sentence prefix change?";
+       StringArrayMap actual = new StringArrayMap();
+       PrefixGenerator.trainPrefixMap(actual, "hamlet.txt");
+       
+       actual = TextGenerationEngine.retrain(5);
+       String[] start = Prefix.getStartOfSentencePrefixes();
+       assertTrue(msg, start.length == 5);
+       
+       actual = TextGenerationEngine.retrain(2);
+       start = Prefix.getStartOfSentencePrefixes();
+       assertTrue(msg, start.length == 2);
    }
 
    @Test
@@ -143,7 +153,14 @@ public class TestTextGenerationEngine {
    public void testRetraining01() {
        String msg = "retrain: can your prefix be set back through retraining "
                     + "after it was changed already?";
-
+       StringArrayMap actual = new StringArrayMap();
+       PrefixGenerator.trainPrefixMap(actual, "hamlet.txt");
+       
+       String[] start = Prefix.getStartOfSentencePrefixes();
+       actual = TextGenerationEngine.retrain(7);
+       actual = TextGenerationEngine.retrain(start.length);
+       
+       assertTrue(msg, start.length == Prefix.getStartOfSentencePrefixes().length);
    }
 
    @Test
@@ -151,6 +168,17 @@ public class TestTextGenerationEngine {
    public void testRetrainging02() {
        String msg = "retrain: are you changing the length of your prefix "
                     + "correctly?";
-
+       StringArrayMap original = new StringArrayMap();
+       PrefixGenerator.trainPrefixMap(original, "hamlet.txt");
+       String[] start = Prefix.getStartOfSentencePrefixes();
+       
+       TextGenerationEngine.retrain(4); // do initial retrain so that we absolutely know length of original prefix
+       StringArrayMap retrain = TextGenerationEngine.retrain(5);
+       
+       Iterator entries = retrain.getKeysIterator();
+       while(entries.hasNext()) {
+    	   Map.Entry<List<String>, Prefix> entry = (Entry<List<String>, Prefix>) entries.next();
+    	   assertTrue(msg, entry.getKey().size() == 5);
+       }
    }
 }
