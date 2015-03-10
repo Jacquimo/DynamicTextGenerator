@@ -10,13 +10,8 @@ import net.sf.webcat.annotations.*;
 
 public class Proj4Test {
 
-    public static void main(String [] args) {
-        JUnitCore jCore = new JUnitCore();
-        jCore.run(Test.class);
-    }
-    
     @Test(timeout = 100)
-    @ScoringWeights(.0083)
+    @ScoringWeight(.0083)
     @Hint("check initializeSentenceStartArray")
     //Test if the initial array of prefixes are empty strings with a size of 3
         public void testInitializeSentenceStartArray() {
@@ -29,7 +24,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0083)
+    @ScoringWeight(.0083)
     @Hint("check Prefix")
     //Test if the constructor initializes the prefix array correctly
         public void testPrefixConstructor() {
@@ -46,7 +41,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0083)
+    @ScoringWeight(.0083)
     @Hint("check getNumSuffixes")
     //Test if the number of suffixes changes
         public void testGetNumSuffixes00() {
@@ -60,7 +55,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0083)
+    @ScoringWeight(.0083)
     @Hint("check getNumSuffixes")
     //Test if the number of suffixes changes
         public void testGetNumSuffixes01() {
@@ -75,7 +70,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0083)
+    @ScoringWeight(.0083)
     @Hint("check getNumSuffixes")
     //Test if the num of prefixes change
         public void testGetNumPrefixes() {
@@ -91,7 +86,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0083)
+    @ScoringWeight(.0083)
     @Hint("check getPrefixString")
     //Test if prefix returned at "index" matches ours
         public void testGetPrefixString() {
@@ -106,7 +101,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0083)
+    @ScoringWeight(.0083)
     @Hint("check addSuffix")
     //Test if number of suffixes chances
         public void testAddSuffix() {
@@ -124,7 +119,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0083)
+    @ScoringWeight(.0083)
     @Hint("check getSuffixString")
     //Test if suffix returned at "index" matches ours
         public void testGetSuffixString() {
@@ -142,7 +137,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0084)
+    @ScoringWeight(.0084)
     @Hint("check getRandomSuffix")
     //Test if a randomly selected suffix is within the array
     public void testGetRandomSuffix() {
@@ -167,7 +162,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0084)
+    @ScoringWeight(.0084)
     @Hint("check toString")
     //Test if prefixes are converted to Strings
         public void testToString() {
@@ -182,7 +177,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0084)
+    @ScoringWeight(.0084)
     @Hint("check equals")
     //Test if two prefix objects are the same
         public void testEquals00() {
@@ -197,7 +192,7 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    @ScoringWeights(.0084)
+    @ScoringWeight(.0084)
     @Hint("check equals")
     //Test if two prefix objects are differebt
         public void testEquals01() {
@@ -572,7 +567,7 @@ public class Proj4Test {
                     break;
                 assertFalse(msg, i >= pref.getNumSuffixes());
                 
-                prefixes = TestPrefixGenerator.updatePrefixStrings(prefixes, suffix);
+                prefixes = updatePrefixStrings(prefixes, suffix);
                 if (TextGenerationEngine.shouldTerminate(suffix))
                     break;
             }
