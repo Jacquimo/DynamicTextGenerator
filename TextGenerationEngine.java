@@ -102,7 +102,7 @@ public class TextGenerationEngine {
 					in.nextLine();
 				} while (length <= 0);
 				
-				retrain(length);
+				map = retrain(length);
 				
 				System.out.println("All texts re-trained\n");
 				break;
@@ -142,13 +142,13 @@ public class TextGenerationEngine {
 		System.out.print("Action: ");
 	}
 	
-	public static String generateSentence(StringArrayMap map) {
+	public static String generateSentence(StringArrayMap mapping) {
 		StringBuilder ret = new StringBuilder();
 		
 		// The starting word is the empty string
 		
 		String[] prefixStrings = Prefix.getStartOfSentencePrefixes();
-		Prefix current = map.getPrefix(prefixStrings);
+		Prefix current = mapping.getPrefix(prefixStrings);
 		String next = "";
 		
 		do {
@@ -169,7 +169,7 @@ public class TextGenerationEngine {
 				ret.append("\n");
 			
 			prefixStrings = PrefixGenerator.updatePrefixStrings(prefixStrings, next);
-			current = map.getPrefix(prefixStrings);
+			current = mapping.getPrefix(prefixStrings);
 			
 			if (current == null || current.getNumSuffixes() <= 0)
 				break;
@@ -212,12 +212,13 @@ public class TextGenerationEngine {
 		return false;
 	}
 	
-	public static void retrain(int length) {
+	public static StringArrayMap retrain(int length) {
 		Prefix.NUM_CONTEXT_WORDS = length;
 		
 		Prefix.initializeSentenceStartArray();
-		map = new StringArrayMap();
+		StringArrayMap mapping = new StringArrayMap();
 		for (int i = 0; i < numTextsTrained; ++i)
-			PrefixGenerator.trainPrefixMap(map, trainedTexts[i]);
+			PrefixGenerator.trainPrefixMap(mapping, trainedTexts[i]);
+		return mapping;
 	}
 }
