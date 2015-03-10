@@ -106,7 +106,7 @@ public class TestTextGenerationEngine {
 
    }
 
-   @Test(timeout = 100)
+   @Test(timeout = 200)
    //Test the validity of the output of generateSentence()
    // may break this up into multiple test cases
    public void testGenerateSentence01() {
@@ -114,28 +114,30 @@ public class TestTextGenerationEngine {
        StringArrayMap actual = new StringArrayMap();
        PrefixGenerator.trainPrefixMap(actual, "hamlet.txt");
        
-       String sentence = TextGenerationEngine.generateSentence(actual).toLowerCase().replace('\n', ' ').trim();
-       Scanner s = new Scanner(sentence);
-       assertTrue("generateSentence: does your program generate any output?", s.hasNext());
-       String[] prefixes = Prefix.getStartOfSentencePrefixes();
-       
-       while (s.hasNext()) {
-    	   String suffix = s.next();
-    	   Prefix pref = actual.getPrefix(prefixes);
-    	   assertNotNull(msg, pref);
-    	   
-    	   int i = 0;
-    	   for (i = 0; i < pref.getNumSuffixes(); ++i)
-    		   if (pref.getSuffixString(i).equals(suffix))
-    			   break;
-    	   assertFalse(msg, i >= pref.getNumSuffixes());
-    	   
-    	   prefixes = TestPrefixGenerator.updatePrefixStrings(prefixes, suffix);
-    	   if (TextGenerationEngine.shouldTerminate(suffix))
-    		   break;
+       for (int index = 0; index < 20; ++index) {
+	       String sentence = TextGenerationEngine.generateSentence(actual).toLowerCase().replace('\n', ' ').trim();
+	       Scanner s = new Scanner(sentence);
+	       assertTrue("generateSentence: does your program generate any output?", s.hasNext());
+	       String[] prefixes = Prefix.getStartOfSentencePrefixes();
+	       
+	       while (s.hasNext()) {
+	    	   String suffix = s.next();
+	    	   Prefix pref = actual.getPrefix(prefixes);
+	    	   assertNotNull(msg, pref);
+	    	   
+	    	   int i = 0;
+	    	   for (i = 0; i < pref.getNumSuffixes(); ++i)
+	    		   if (pref.getSuffixString(i).equals(suffix))
+	    			   break;
+	    	   assertFalse(msg, i >= pref.getNumSuffixes());
+	    	   
+	    	   prefixes = TestPrefixGenerator.updatePrefixStrings(prefixes, suffix);
+	    	   if (TextGenerationEngine.shouldTerminate(suffix))
+	    		   break;
+	       }
+	       
+	       assertFalse("generateSentence: did you properly terminate your sentence?", s.hasNext());
        }
-       
-       assertFalse("generateSentence: did you properly terminate your sentence?", s.hasNext());
    }
 
    @Test
