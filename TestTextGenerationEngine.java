@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 public class TestTextGenerationEngine {
 
    @Test
+   @ScoringWeight(0.0273)
    //Test if the sentence terminates correctly
    public void testShouldTerminate00() {
        String msg = "shouldTerminate: are sentences terminated correctly?";
@@ -22,6 +23,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test
+   @ScoringWeight(0.0273)
    //Test if there is a terminating character in middle of sentence
    public void testShouldTerminate01() {
        String msg = "shouldTerminate: was there a terminating char in the "
@@ -35,6 +37,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test
+   @ScoringWeight(0.0273)
    //Test when there are no terminating characters at all
    public void testShouldTerminate02() {
        String msg = "shouldTerminate: was there a terminating char at all?";
@@ -47,6 +50,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test
+   @ScoringWeight(0.0273)
    //Test when there is punctuation char before terminating char
    public void testShouldTerminate03() {
        String msg = "shouldTerminate: were there any punctuation characters "
@@ -61,6 +65,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test
+   @ScoringWeight(0.0273)
    //Test when there is punc char without any terminating char
    public void testShouldTerminate04() {
        String msg = "shouldTerminate: were there only punctuation characters at the end?";
@@ -73,6 +78,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test
+   @ScoringWeight(0.0273)
    //Test when punc char is a non-final char (ie. it's)
    public void testShouldTerminate05() {
        String msg = "shouldTerminate: are you checking for punctuating "
@@ -86,6 +92,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test
+   @ScoringWeight(0.0273)
    //Tests the output of generateSentence() for formatting
    public void testGenerateSentence00() {
        String msg = "generateSentence: is your output formatted correctly?";
@@ -99,6 +106,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test(timeout = 200)
+   @ScoringWeight(0.0273)
    //Test the validity of the output of generateSentence()
    // may break this up into multiple test cases
    public void testGenerateSentence01() {
@@ -133,6 +141,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test
+   @ScoringWeight(0.0272)
    //Test if start of sentence prefix changes
    public void testRetraining00() {
        String msg = "retrain: did the start of sentence prefix change?";
@@ -149,6 +158,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test
+   @ScoringWeight(0.0272)
    //Test if length of prefix can be set back to original after change
    public void testRetraining01() {
        String msg = "retrain: can your prefix be set back through retraining "
@@ -164,6 +174,7 @@ public class TestTextGenerationEngine {
    }
 
    @Test
+   @ScoringWeight(0.0272)
    //Test if prefix length of two objects are different after training
    public void testRetrainging02() {
        String msg = "retrain: are you changing the length of your prefix "
