@@ -13,7 +13,7 @@ public class TestTextGenerationEngine {
    public void testShouldTerminate00() {
        String msg = "shouldTerminate: are sentences terminated correctly?";
 
-       String [] terminators = {"I am Sam.", "I am terrified!", "What in the world?"};
+       String [] terminators = {"Sam.", "terrified!", "world?"};
 
        for(int i = 0; i < terminators.length; i++) {
            assertTrue(msg, TextGenerationEngine.shouldTerminate(terminators[i]));
@@ -24,11 +24,9 @@ public class TestTextGenerationEngine {
    //Test if there is a terminating character in middle of sentence
    public void testShouldTerminate01() {
        String msg = "shouldTerminate: was there a terminating char in the "
-                    + "middle of the sentence?";
+                    + "middle of the word?";
 
-       String [] terminators = {"St. John is alive? Really now",
-                                ".java files contain your code",
-                                "Not sure...let's go the police"};
+       String[] terminators = { "St.John", ".java", "tosh.O", "5.3", "sure...well", "?-", "we!ght"};
 
        for(int i = 0; i < terminators.length; i++) {
            assertFalse(msg, TextGenerationEngine.shouldTerminate(terminators[i]));
@@ -39,10 +37,8 @@ public class TestTextGenerationEngine {
    //Test when there are no terminating characters at all
    public void testShouldTerminate02() {
        String msg = "shouldTerminate: was there a terminating char at all?";
-
-       String [] noTerminators = {"Rowdy won in seconds",
-                                  "I like pizza and pie",
-                                  "You shall not pass"};
+       
+       String[] noTerminators = {"Rowdy", "like", "pizza", "", " ", "Pass"};
 
        for(int i = 0; i < noTerminators.length; i++) {
            assertFalse(msg, TextGenerationEngine.shouldTerminate(noTerminators[i]));
@@ -54,10 +50,9 @@ public class TestTextGenerationEngine {
    public void testShouldTerminate03() {
        String msg = "shouldTerminate: were there any punctuation characters "
                     + "before a terminating char?";
+       
+       String[] puncArray = { "personal.\"", "ogre!)", "huh?\"", ".(", "Yelp!;", "done.'" };
 
-       String [] puncArray = {"You know it's not personal.",
-                              "You know she's a girl right?",
-                              "Wait, isn't that an ogre?"};
 
        for(int i = 0; i < puncArray.length; i++) {
            assertTrue(msg, TextGenerationEngine.shouldTerminate(puncArray[i]));
@@ -67,11 +62,9 @@ public class TestTextGenerationEngine {
    @Test
    //Test when there is punc char without any terminating char
    public void testShouldTerminate04() {
-       String msg = "shouldTerminate: were there only punctuation characters?";
-
-       String [] puncNoTerminator = {"It's a small world after all",
-                                     "Why didn't you ask me",
-                                     "You're killing me slowly"};
+       String msg = "shouldTerminate: were there only punctuation characters at the end?";
+       
+       String[] puncNoTerminator = { "end\"", "code;", "reason:", "after,", "(comment)", ")", "(", "test'" };
 
        for(int i = 0; i < puncNoTerminator.length; i++) {
            assertFalse(msg, TextGenerationEngine.shouldTerminate(puncNoTerminator[i]));
@@ -83,10 +76,8 @@ public class TestTextGenerationEngine {
    public void testShouldTerminate05() {
        String msg = "shouldTerminate: are you checking for punctuating "
                     + "characters correctly?";
-
-       String [] nonFinal = {"You know I'm crazy,",
-                             "Where is the house,",
-                             "There are three things: "};
+       
+       String[] nonFinal = { "It's", "(start", "\"CS180", "Class::variable", ")-though" };
 
        for(int i = 0; i < nonFinal.length; i++) {
            assertFalse(msg, TextGenerationEngine.shouldTerminate(nonFinal[i]));
