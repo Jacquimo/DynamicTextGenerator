@@ -1,6 +1,11 @@
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+
+import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
+
 import net.sf.webcat.annotations.*;
 
 public class Test {
@@ -283,7 +288,7 @@ public class Test {
         String filename = "hamlet.txt";
         StringArrayMap expected = new StringArrayMap();
         StringArrayMap actual = new StringArrayMap();
-        TestPrefixGenerator.trainPrefixMap(expected, filename);
+        trainPrefixMap(expected, filename);
         PrefixGenerator.trainPrefixMap(actual, filename);
         
         Iterator ex = expected.getKeysIterator();
@@ -335,7 +340,7 @@ public class Test {
         String filename = "hamlet.txt";
         StringArrayMap expected = new StringArrayMap();
         StringArrayMap actual = new StringArrayMap();
-        TestPrefixGenerator.trainPrefixMap(expected, filename);
+        trainPrefixMap(expected, filename);
         PrefixGenerator.trainPrefixMap(actual, filename);
         
         Iterator ex = expected.getKeysIterator();
