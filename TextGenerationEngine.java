@@ -136,7 +136,7 @@ public class TextGenerationEngine {
 					in.nextLine();
 				} while (length <= 0);
 				
-				retrain(length);
+				map = retrain(length);
 				
 				System.out.println("All texts re-trained\n");
 				break;
@@ -203,7 +203,8 @@ public class TextGenerationEngine {
 	 * the specified number of words in a prefix
 	 * @param prefixLength
 	 */
-	public static void retrain(int prefixLength) {
+	public static StringArrayMap retrain(int prefixLength) {
 		// TODO: implement the method
+		return null;
 	}
 }
