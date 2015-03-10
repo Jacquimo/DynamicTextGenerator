@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This class maps a string array (key) to a prefix objects (value). On average, it will retrieve the prefix objects in constant time on average.
@@ -42,4 +43,29 @@ public class StringArrayMap {
 	protected Iterator getKeysIterator() {
 		return map.entrySet().iterator();
 	}
+	
+	/**
+	 * Gives a printed summary of this string map, listing all the trained
+	 * string prefixes, with the corresponding possible non-null suffixes. Note
+	 * that the order is arbitrary, and is not guaranteed to be consistent
+	 */
+	public void printMap() {
+		Iterator itr = this.getKeysIterator();
+		while (itr.hasNext()) {
+			Entry<List<String>, Prefix> entry = (Entry) itr.next();
+			List<String> key = entry.getKey();
+			Prefix prefix = entry.getValue();
+			String suffixes = "{";
+			String comma = "";
+			for (int i = 0; i < prefix.getNumSuffixes(); i++) {
+				String suffix = prefix.getSuffixString(i);
+				if (suffix != null) {
+					suffixes += comma + suffix;
+					comma = ", ";
+				}
+			}
+			suffixes += "}";
+			System.out.println(key + ": " + suffixes);
+		}
+	} 
 }

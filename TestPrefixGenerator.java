@@ -12,8 +12,6 @@ public class TestPrefixGenerator {
 	
 	// Test if they add the first word in a sentence to the hashmap
 	@Test(timeout = 100)
-    @ScoringWeight(0.075)
-    @Hint("check trainPrefixMap")
 	public void testTrainPrefixMap_01() {
 		Prefix.initializeSentenceStartArray();
 		String filename = "trainPrefixMaptest01.txt";
@@ -28,8 +26,6 @@ public class TestPrefixGenerator {
 	
 	// Test if they update their prefix to include the last word seen
 	@Test(timeout = 100)
-    @ScoringWeight(0.075)
-    @Hint("check trainPrefixMap")
 	public void testTrainPrefixMap_02() {
 		Prefix.initializeSentenceStartArray();
 		String filename = "trainPrefixMaptest02.txt";
@@ -45,8 +41,6 @@ public class TestPrefixGenerator {
 	
 	// Test if they check for sentence termination
 	@Test(timeout = 100)
-    @ScoringWeight(0.075)
-    @Hint("check trainPrefixMap")
 	public void testTrainPrefixMap_03() {
 		Prefix.initializeSentenceStartArray();
 		String filename = "trainPrefixMaptest03.txt";
@@ -64,8 +58,6 @@ public class TestPrefixGenerator {
 	
 	// Test if they only use a period to test for sentence termination
 	@Test(timeout = 100)
-    @ScoringWeight(0.075)
-    @Hint("check trainPrefixMap")
 	public void testTrainPrefixMap_04() {
 		Prefix.initializeSentenceStartArray();
 		String[] prefixes = Prefix.getStartOfSentencePrefixes();
@@ -85,8 +77,6 @@ public class TestPrefixGenerator {
 	
     //Making sure the number of keys are equal
     @Test(timeout = 100)
-    @ScoringWeight(0.075)
-    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_05() {
         String filename = "hamlet.txt";
         StringArrayMap expected = new StringArrayMap();
@@ -109,8 +99,6 @@ public class TestPrefixGenerator {
     
     // check if they converted all words to lower case
     @Test(timeout = 100)
-    @ScoringWeight(0.075)
-    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_06() {
     	String filename = "hamlet.txt";
         StringArrayMap actual = new StringArrayMap();
@@ -137,8 +125,6 @@ public class TestPrefixGenerator {
 
     // check to see if their hamlet training matches ours
     @Test(timeout = 150)
-    @ScoringWeight(0.075)
-    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_07() {
         String filename = "hamlet.txt";
         StringArrayMap expected = new StringArrayMap();
@@ -170,8 +156,6 @@ public class TestPrefixGenerator {
     
     // check if they accidentally change the start of sentence prefix
     @Test(timeout = 100)
-    @ScoringWeight(0.075)
-    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_08() {
     	String filename = "hamlet.txt";
     	StringArrayMap actual = new StringArrayMap();
