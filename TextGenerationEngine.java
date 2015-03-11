@@ -19,8 +19,8 @@ public class TextGenerationEngine {
 	private static String[] trainedTexts = new String[8];
 	private static int numTextsTrained = 0;
 	private static StringArrayMap map = null;
-	private static int numSentances = 1;
-
+	private static int numSentences = 1;
+	
 	/**
 	 * Adds a file to the list of files that the program has been trained on
 	 * 
@@ -99,7 +99,7 @@ public class TextGenerationEngine {
 				}
 
 				System.out.printf("\nDynamically Generated Text\n\n");
-				for (int i = 0; i < numSentances; ++i) {
+				for (int i = 0; i < numSentences; ++i) {
 					String sentence = generateSentence(map);
 					System.out.printf("%s\n\n", sentence);
 				}
@@ -163,7 +163,7 @@ public class TextGenerationEngine {
 					if (num < 0)
 						System.out.println("Invalid input");
 				} while (num < 0);
-				numSentances = num;
+				numSentences = num;
 				System.out.println();
 				break;
 
