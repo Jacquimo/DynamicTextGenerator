@@ -4,8 +4,11 @@ import org.junit.Test;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.ReflectPermission;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.jar.JarFile;
@@ -13,6 +16,8 @@ import java.util.jar.JarFile;
 import net.sf.webcat.annotations.*;
 
 public class Proj4Test {
+	
+	
 
 	@Test
 	public void testJar() throws Exception {
@@ -21,10 +26,33 @@ public class Proj4Test {
 
 		URL[] urls = { new URL("jar:file:StringArrayMap.jar!/") };
 		URLClassLoader cl = URLClassLoader.newInstance(urls);
+		
+		Class c = cl.loadClass("TestingJar");
+	    final Field field = c.getDeclaredField("checkString"); //.getDeclaredField("checkString");
+	   
+	    /*AccessController.doPrivileged(new PrivilegedExceptionAction() {
+	    	public Object run() throws Exception {
+	    		if (!field.isAccessible()) {
+	    			field.setAccessible(true);
+	    		}
+	    		
+	    		assertEquals("", "initialImplementation", (String) field.get(c.newInstance()));
+	    		return null;
+	    	}
+	    });*/
+	   
+	    field.setAccessible(true);
+	    assertEquals("", "initialImplementation", (String)field.get(null));
 	    
-	    Class c = cl.loadClass("TestingJar");
-	    Field mod = c.getDeclaredField("checkString");
-	    assertEquals("", "initialImplementation", mod.get(""));
+	    /*File file = new File("StringArrayMap.jar");
+	    URL url = file.toURI().toURL();
+	    URL[] u = new URL[]{url};
+	    ClassLoader loader = new URLClassLoader(u);
+	    Class map = loader.loadClass("TestingJar");
+	    Field f = map.getField("checkString");
+	    assertEquals("", "initialImplementation", (String)f.get(null));
+	    */
+	    
 	}
 	
     @Test(timeout = 100)

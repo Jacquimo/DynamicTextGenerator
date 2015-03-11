@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.*;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.jar.*;
@@ -21,9 +23,30 @@ public class TestTextGenerationEngine {
 		URL[] urls = { new URL("jar:file:submission/StringArrayMap.jar!/") };
 		URLClassLoader cl = URLClassLoader.newInstance(urls);
 	    
-	    Class c = cl.loadClass("TestingJar");	    
-	    Field mod = c.getDeclaredField("checkString");
-	    assertEquals("", "initialImplementation", mod.get(""));
+		Class c = cl.loadClass("StringArrayMap");
+	    final Field field = c.getField("checkString"); //.getDeclaredField("checkString");
+	   
+	    /*AccessController.doPrivileged(new PrivilegedExceptionAction() {
+	    	public Object run() throws Exception {
+	    		if (!field.isAccessible()) {
+	    			field.setAccessible(true);
+	    		}
+	    		
+	    		assertEquals("", "initialImplementation", (String) field.get(c.newInstance()));
+	    		return null;
+	    	}
+	    });*/
+	   
+	  //field.setAccessible(true);
+	    //assertEquals("", "initialImplementation", (String)field.get(null));
+	    
+	    File file = new File("StringArrayMap.jar");
+	    URL url = file.toURI().toURL();
+	    URL[] u = new URL[]{url};
+	    ClassLoader loader = new URLClassLoader(u);
+	    Class map = loader.loadClass("StringArrayMap");
+	    Field f = map.getField("checkString");
+	    assertEquals("", "initialImplementation", (String)f.get(null));
 	}
 
    @Test

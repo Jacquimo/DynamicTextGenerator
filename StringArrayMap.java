@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -68,8 +69,6 @@ public class StringArrayMap {
 			System.out.println(key + ": " + suffixes);
 		}
 	} 
-}
-
-class TestingJar {
-	static final String checkString = "initialImplementation";
+	
+	public static final String checkString = "initialImplementation";
 }
