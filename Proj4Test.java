@@ -3,13 +3,30 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.io.*;
+import java.lang.reflect.Field;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.jar.JarFile;
 
 import net.sf.webcat.annotations.*;
 
 public class Proj4Test {
 
+	@Test
+	public void testJar() throws Exception {
+		JarFile jarFile = new JarFile("StringArrayMap.jar");
+		Enumeration e = jarFile.entries();
+
+		URL[] urls = { new URL("jar:file:StringArrayMap.jar!/") };
+		URLClassLoader cl = URLClassLoader.newInstance(urls);
+	    
+	    Class c = cl.loadClass("TestingJar");
+	    Field mod = c.getDeclaredField("checkString");
+	    assertEquals("", "initialImplementation", mod.get(""));
+	}
+	
     @Test(timeout = 100)
     @ScoringWeight(.0083)
     @Hint("check initializeSentenceStartArray")

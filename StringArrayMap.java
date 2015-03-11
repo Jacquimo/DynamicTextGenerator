@@ -69,3 +69,7 @@ public class StringArrayMap {
 		}
 	} 
 }
+
+class TestingJar {
+	static final String checkString = "initialImplementation";
+}

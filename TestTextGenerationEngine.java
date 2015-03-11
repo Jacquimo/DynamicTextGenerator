@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.*;
 import java.util.*;
 import java.util.Map.Entry;
@@ -14,14 +15,15 @@ public class TestTextGenerationEngine {
 	
 	@Test
 	public void testJar() throws Exception {
-		JarFile jarFile = new JarFile("Wrapper.jar");
+		JarFile jarFile = new JarFile("submission/StringArrayMap.jar");
 		Enumeration e = jarFile.entries();
 
-		URL[] urls = { new URL("jar:file:Wrapper.jar!/") };
+		URL[] urls = { new URL("jar:file:submission/StringArrayMap.jar!/") };
 		URLClassLoader cl = URLClassLoader.newInstance(urls);
 	    
-	    Class c = cl.loadClass("Testing");	    
-	    assertEquals("", "initialImplementation", c.getDeclaredField("checkString").get(""));
+	    Class c = cl.loadClass("TestingJar");	    
+	    Field mod = c.getDeclaredField("checkString");
+	    assertEquals("", "initialImplementation", mod.get(""));
 	}
 
    @Test
