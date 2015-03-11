@@ -13,7 +13,7 @@ import java.util.jar.*;
 public class TestTextGenerationEngine {
 	
 	@Test
-	public void testCheating() throws Exception {
+	public void testJar() throws Exception {
 		JarFile jarFile = new JarFile("Wrapper.jar");
 		Enumeration e = jarFile.entries();
 
