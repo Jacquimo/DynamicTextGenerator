@@ -14,10 +14,10 @@ public class TestTextGenerationEngine {
 	
 	@Test
 	public void testCheating() throws Exception {
-		JarFile jarFile = new JarFile("Testing.jar");
+		JarFile jarFile = new JarFile("Wrapper.jar");
 		Enumeration e = jarFile.entries();
 
-		URL[] urls = { new URL("jar:file:Testing.jar!/") };
+		URL[] urls = { new URL("jar:file:Wrapper.jar!/") };
 		URLClassLoader cl = URLClassLoader.newInstance(urls);
 	    
 	    Class c = cl.loadClass("Testing");	    
