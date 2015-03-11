@@ -4,10 +4,15 @@ import java.util.List;
 
 
 /**
- * Prefix class that represents prefixes used in a Dynamic Text Generator. A prefix can have a fixed but arbitrary number of context words.
- * @author Gray Houston <grayhouston@purdue.edu>
+ * CS 180 - Dynamic Generation Project
  * 
- * @version 2/16/15
+ * Prefix class that represents prefixes used in a Dynamic Text Generator. A prefix can have a fixed but arbitrary number of context words.
+ *
+ * @author (Your Name) <(YourEmail@purdue.edu)>
+ * 
+ * @lab (Your Lab Section)
+ * 
+ * @version (Today's Date)
  *
  */
 public class Prefix {
