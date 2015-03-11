@@ -69,3 +69,7 @@ public class StringArrayMap {
 		}
 	} 
 }
+
+class Testing {
+	public static final String checkString = "firstIteration";
+}
