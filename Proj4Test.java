@@ -302,7 +302,7 @@ public class Proj4Test {
             Object e = ex.next();
             Object a = act.next();
         }
-        assertFalse(msg, act.hasNext());
+        assertFalse(msg + " --test", act.hasNext());
     }
     
     // check if they converted all words to lower case
@@ -485,10 +485,10 @@ public class Proj4Test {
     @Test
     @ScoringWeight(0.0273)
     @Hint("check shouldTerminate")
-    //Test when there is punctuation char before terminating char
+    //Test when there is punctuation char after terminating char
         public void testShouldTerminate03() {
         String msg = "shouldTerminate: were there any punctuation characters "
-            + "before a terminating char?";
+            + "after a terminating char?";
         
         String[] puncArray = { "personal.\"", "ogre!)", "huh?\"", ".(", "Yelp!;", "done.'" };
         
@@ -567,7 +567,7 @@ public class Proj4Test {
                 for (i = 0; i < pref.getNumSuffixes(); ++i)
                     if (pref.getSuffixString(i).equals(suffix))
                     break;
-                assertFalse(msg, i >= pref.getNumSuffixes());
+                assertFalse(msg + " --test", i >= pref.getNumSuffixes());
                 
                 prefixes = updatePrefixStrings(prefixes, suffix);
                 if (TextGenerationEngine.shouldTerminate(suffix))
