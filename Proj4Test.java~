@@ -6,26 +6,26 @@ import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 
-//import net.sf.webcat.annotations.*;
+import net.sf.webcat.annotations.*;
 
 public class Proj4Test {
 
-//    @Test(timeout = 100)
-//    //@ScoringWeight(.0083)
-//    //@Hint("check initializeSentenceStartArray")
-//    //Test if the initial array of prefixes are empty strings with a size of 3
-//        public void testInitializeSentenceStartArray() {
-//        String msg = "initializeSentenceStartArray: did you " +
-//            "initialize your array correctly?";
-//        String [] emptyTest = {"", "", ""};
-//        
-//        Prefix.initializeSentenceStartArray();
-//        assertArrayEquals(msg, emptyTest, Prefix.getStartOfSentencePrefixes());
-//    }
+    @Test(timeout = 100)
+    @ScoringWeight(.0083)
+    @Hint("check initializeSentenceStartArray")
+    //Test if the initial array of prefixes are empty strings with a size of 3
+        public void testInitializeSentenceStartArray() {
+        String msg = "initializeSentenceStartArray: did you " +
+            "initialize your array correctly?";
+        String [] emptyTest = {"", "", ""};
+        
+        Prefix.initializeSentenceStartArray();
+        assertArrayEquals(msg, emptyTest, Prefix.getStartOfSentencePrefixes());
+    }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0083)
-    //@Hint("check Prefix")
+    @ScoringWeight(.0083)
+    @Hint("check Prefix")
     //Test if the constructor initializes the prefix array correctly
         public void testPrefixConstructor() {
         String msg = "Prefix: did you initialize your prefix array correctly?";
@@ -41,8 +41,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0083)
-    //@Hint("check getNumSuffixes")
+    @ScoringWeight(.0083)
+    @Hint("check getNumSuffixes")
     //Test if the number of suffixes changes
         public void testGetNumSuffixes00() {
         String msg = "getNumSuffixes: initial number of suffixes should be 0";
@@ -55,8 +55,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0083)
-    //@Hint("check getNumSuffixes")
+    @ScoringWeight(.0083)
+    @Hint("check getNumSuffixes")
     //Test if the number of suffixes changes
         public void testGetNumSuffixes01() {
         String msg = "getNumSuffixes: does the number of suffixes change correctly?";
@@ -70,8 +70,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0083)
-    //@Hint("check getNumSuffixes")
+    @ScoringWeight(.0083)
+    @Hint("check getNumSuffixes")
     //Test if the num of prefixes change
         public void testGetNumPrefixes() {
         String msg = "getNumPrefixes: is the number of prefixes correct?";
@@ -86,8 +86,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0083)
-    //@Hint("check getPrefixString")
+    @ScoringWeight(.0083)
+    @Hint("check getPrefixString")
     //Test if prefix returned at "index" matches ours
         public void testGetPrefixString() {
         String msg = "getPrefixString: string does not exist or string returned "
@@ -101,8 +101,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0083)
-    //@Hint("check addSuffix")
+    @ScoringWeight(.0083)
+    @Hint("check addSuffix")
     //Test if number of suffixes chances
         public void testAddSuffix() {
         String msg = "addSuffix: was the suffix added correctly?";
@@ -119,8 +119,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0083)
-    //@Hint("check getSuffixString")
+    @ScoringWeight(.0083)
+    @Hint("check getSuffixString")
     //Test if suffix returned at "index" matches ours
         public void testGetSuffixString() {
         String msg = "getSuffixString: string doesnot exist or returned "
@@ -137,8 +137,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0084)
-    //@Hint("check getRandomSuffix")
+    @ScoringWeight(.0084)
+    @Hint("check getRandomSuffix")
     //Test if a randomly selected suffix is within the array
     public void testGetRandomSuffix() {
         String msg = "getRandomSuffix: suffix does not exist.";
@@ -163,8 +163,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0084)
-    //@Hint("check toString")
+    @ScoringWeight(.0084)
+    @Hint("check toString")
     //Test if prefixes are converted to Strings
         public void testToString() {
         String msg = "toString: prefixes weren't converted to Strings correctly.";
@@ -178,8 +178,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0084)
-    //@Hint("check equals")
+    @ScoringWeight(.0084)
+    @Hint("check equals")
     //Test if two prefix objects are the same
         public void testEquals00() {
         String msg = "equals: Prefix objects are not the same.";
@@ -193,8 +193,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 100)
-    //@ScoringWeight(.0084)
-    //@Hint("check equals")
+    @ScoringWeight(.0084)
+    @Hint("check equals")
     //Test if two prefix objects are differebt
         public void testEquals01() {
         String msg = "equals: Prefix objects should be different.";
@@ -210,8 +210,8 @@ public class Proj4Test {
     
 // Test if they add the first word in a sentence to the hashmap
     @Test(timeout = 100)
-    //@ScoringWeight(0.075)
-    //@Hint("check trainPrefixMap")
+    @ScoringWeight(0.075)
+    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_01() {
         Prefix.initializeSentenceStartArray();
         String filename = "trainPrefixMaptest01.txt";
@@ -226,8 +226,8 @@ public class Proj4Test {
     
     // Test if they update their prefix to include the last word seen
     @Test(timeout = 100)
-    //@ScoringWeight(0.075)
-    //@Hint("check trainPrefixMap")
+    @ScoringWeight(0.075)
+    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_02() {
         Prefix.initializeSentenceStartArray();
         String filename = "trainPrefixMaptest02.txt";
@@ -243,8 +243,8 @@ public class Proj4Test {
     
     // Test if they check for sentence termination
     @Test(timeout = 100)
-    //@ScoringWeight(0.075)
-    //@Hint("check trainPrefixMap")
+    @ScoringWeight(0.075)
+    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_03() {
         Prefix.initializeSentenceStartArray();
         String filename = "trainPrefixMaptest03.txt";
@@ -262,8 +262,8 @@ public class Proj4Test {
     
     // Test if they only use a period to test for sentence termination
     @Test(timeout = 100)
-    //@ScoringWeight(0.075)
-    //@Hint("check trainPrefixMap")
+    @ScoringWeight(0.075)
+    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_04() {
         Prefix.initializeSentenceStartArray();
         String[] prefixes = Prefix.getStartOfSentencePrefixes();
@@ -283,8 +283,8 @@ public class Proj4Test {
     
     //Making sure the number of keys are equal
     @Test(timeout = 100)
-    //@ScoringWeight(0.075)
-    //@Hint("check trainPrefixMap")
+    @ScoringWeight(0.075)
+    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_05() {
         String filename = "hamlet.txt";
         StringArrayMap expected = new StringArrayMap();
@@ -307,8 +307,8 @@ public class Proj4Test {
     
     // check if they converted all words to lower case
     @Test(timeout = 100)
-    //@ScoringWeight(0.075)
-    //@Hint("check trainPrefixMap")
+    @ScoringWeight(0.075)
+    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_06() {
         String filename = "hamlet.txt";
         StringArrayMap actual = new StringArrayMap();
@@ -336,8 +336,8 @@ public class Proj4Test {
     
     // check to see if their hamlet training matches ours
     @Test(timeout = 150)
-    //@ScoringWeight(0.075)
-    //@Hint("check trainPrefixMap")
+    @ScoringWeight(0.075)
+    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_07() {
         String filename = "hamlet.txt";
         StringArrayMap expected = new StringArrayMap();
@@ -356,7 +356,7 @@ public class Proj4Test {
             
             Prefix e = entry.getValue();
             assertTrue("trainPrefixMap: Check what String[] keys you are using in your StringArrayMap "
-                           + "or check if your Prefix class' equals method works: <expected> " + e + " <actual> " + a, e.equals(a));
+                           + "or check if your Prefix class' equals method works", e.equals(a));
             assertTrue("trainPrefixMap: Do you have the right number of suffixes "
                            + "for the \"" + a.toString() + "\" prefix", e.getNumSuffixes() == a.getNumSuffixes());
             
@@ -369,8 +369,8 @@ public class Proj4Test {
     
     // check if they accidentally change the start of sentence prefix
     @Test(timeout = 100)
-    //@ScoringWeight(0.075)
-    //@Hint("check trainPrefixMap")
+    @ScoringWeight(0.075)
+    @Hint("check trainPrefixMap")
     public void testTrainPrefixMap_08() {
         String filename = "hamlet.txt";
         StringArrayMap actual = new StringArrayMap();
@@ -440,8 +440,8 @@ public class Proj4Test {
     }
     
     @Test
-    //@ScoringWeight(0.0273)
-    //@Hint("check shouldTerminate")
+    @ScoringWeight(0.0273)
+    @Hint("check shouldTerminate")
     //Test if the sentence terminates correctly
         public void testShouldTerminate00() {
         String msg = "shouldTerminate: are sentences terminated correctly?";
@@ -454,8 +454,8 @@ public class Proj4Test {
     }
     
     @Test
-    //@ScoringWeight(0.0273)
-    //@Hint("check shouldTerminate")
+    @ScoringWeight(0.0273)
+    @Hint("check shouldTerminate")
     //Test if there is a terminating character in middle of sentence
         public void testShouldTerminate01() {
         String msg = "shouldTerminate: was there a terminating char in the "
@@ -469,8 +469,8 @@ public class Proj4Test {
     }
     
     @Test
-    //@ScoringWeight(0.0273)
-    //@Hint("check shouldTerminate")
+    @ScoringWeight(0.0273)
+    @Hint("check shouldTerminate")
     //Test when there are no terminating characters at all
         public void testShouldTerminate02() {
         String msg = "shouldTerminate: was there a terminating char at all?";
@@ -483,12 +483,12 @@ public class Proj4Test {
     }
     
     @Test
-    //@ScoringWeight(0.0273)
-    //@Hint("check shouldTerminate")
-    //Test when there is punctuation char before terminating char
+    @ScoringWeight(0.0273)
+    @Hint("check shouldTerminate")
+    //Test when there is punctuation char after terminating char
         public void testShouldTerminate03() {
         String msg = "shouldTerminate: were there any punctuation characters "
-            + "before a terminating char?";
+            + "after a terminating char?";
         
         String[] puncArray = { "personal.\"", "ogre!)", "huh?\"", ".(", "Yelp!;", "done.'" };
         
@@ -499,8 +499,8 @@ public class Proj4Test {
     }
     
     @Test
-    //@ScoringWeight(0.0273)
-    //@Hint("check shouldTerminate")
+    @ScoringWeight(0.0273)
+    @Hint("check shouldTerminate")
     //Test when there is punc char without any terminating char
         public void testShouldTerminate04() {
         String msg = "shouldTerminate: were there only punctuation characters at the end?";
@@ -513,8 +513,8 @@ public class Proj4Test {
     }
     
     @Test
-    //@ScoringWeight(0.0273)
-    //@Hint("check shouldTerminate")
+    @ScoringWeight(0.0273)
+    @Hint("check shouldTerminate")
     //Test when punc char is a non-final char (ie. it's)
         public void testShouldTerminate05() {
         String msg = "shouldTerminate: are you checking for punctuating "
@@ -528,8 +528,8 @@ public class Proj4Test {
     }
     
     @Test
-    //@ScoringWeight(0.0273)
-    //@Hint("check generateSentence")
+    @ScoringWeight(0.0273)
+    @Hint("check generateSentence")
     //Tests the output of generateSentence() for formatting
         public void testGenerateSentence00() {
         String msg = "generateSentence: is your output formatted correctly?";
@@ -543,8 +543,8 @@ public class Proj4Test {
     }
     
     @Test(timeout = 200)
-    //@ScoringWeight(0.0273)
-    //@Hint("check generateSentence")
+    @ScoringWeight(0.0273)
+    @Hint("check generateSentence")
     //Test the validity of the output of generateSentence()
     // may break this up into multiple test cases
     public void testGenerateSentence01() {
@@ -579,8 +579,8 @@ public class Proj4Test {
     }
     
     @Test
-    //@ScoringWeight(0.0272)
-    //@Hint("check retraining")
+    @ScoringWeight(0.0272)
+    @Hint("check retraining")
     //Test if start of sentence prefix changes
         public void testRetraining00() {
         String msg = "retrain: did the start of sentence prefix change?";
@@ -594,11 +594,13 @@ public class Proj4Test {
         actual = TextGenerationEngine.retrain(2);
         start = Prefix.getStartOfSentencePrefixes();
         assertTrue(msg, start.length == 2);
+        StringArrayMap reset = new StringArrayMap();
+        reset = TextGenerationEngine.retrain(3);
     }
     
     @Test
-    //@ScoringWeight(0.0272)
-    //@Hint("check retraining")
+    @ScoringWeight(0.0272)
+    @Hint("check retraining")
     //Test if length of prefix can be set back to original after change
         public void testRetraining01() {
         String msg = "retrain: can your prefix be set back through retraining "
@@ -614,8 +616,8 @@ public class Proj4Test {
     }
     
     @Test
-    //@ScoringWeight(0.0272)
-    //@Hint("check retraining")
+    @ScoringWeight(0.0272)
+    @Hint("check retraining")
     //Test if prefix length of two objects are different after training
         public void testRetrainging02() {
         String msg = "retrain: are you changing the length of your prefix "
@@ -632,6 +634,8 @@ public class Proj4Test {
             Map.Entry<List<String>, Prefix> entry = (Entry<List<String>, Prefix>) entries.next();
             assertTrue(msg, entry.getKey().size() == 5);
         }
+        StringArrayMap reset = new StringArrayMap();
+        reset = TextGenerationEngine.retrain(3);
     }
 }
 
