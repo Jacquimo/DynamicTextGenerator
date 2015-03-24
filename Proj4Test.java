@@ -594,6 +594,8 @@ public class Proj4Test {
         actual = TextGenerationEngine.retrain(2);
         start = Prefix.getStartOfSentencePrefixes();
         assertTrue(msg, start.length == 2);
+        StringArrayMap reset = new StringArrayMap();
+        reset = TextGenerationEngine.retrain(3);
     }
     
     @Test
@@ -632,6 +634,8 @@ public class Proj4Test {
             Map.Entry<List<String>, Prefix> entry = (Entry<List<String>, Prefix>) entries.next();
             assertTrue(msg, entry.getKey().size() == 5);
         }
+        StringArrayMap reset = new StringArrayMap();
+        reset = TextGenerationEngine.retrain(3);
     }
 }
 
